@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xGyEAkAydJo=",
+  "success": true,
+  "projectFilePath": "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.1\\microsoft.extensions.dependencyinjection.9.0.1.nupkg.sha512",
+    "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
