@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj": {}
+    "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj": {}
   },
   "projects": {
-    "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj": {
+    "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
+        "projectUniqueName": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
         "projectName": "Zoo",
-        "projectPath": "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
+        "projectPath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
         "packagesPath": "C:\\Users\\ponom\\.nuget\\packages\\",
-        "outputPath": "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\obj\\",
+        "outputPath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

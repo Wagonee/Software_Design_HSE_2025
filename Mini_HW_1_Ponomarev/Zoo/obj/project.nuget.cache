@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xGyEAkAydJo=",
+  "dgSpecHash": "YhH7DbHQfWQ=",
   "success": true,
-  "projectFilePath": "C:\\SE\\Projects\\HSE\\Software Design\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
+  "projectFilePath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Mini_HW_1_Ponomarev\\Zoo\\Zoo.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.1\\microsoft.extensions.dependencyinjection.9.0.1.nupkg.sha512",
     "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512"

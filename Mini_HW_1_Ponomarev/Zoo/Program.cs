@@ -13,6 +13,7 @@ var zooGarden = provider.GetRequiredService<ZooGarden>();
 zooGarden.AddAnimal(new Monkey("Горилыч", 5, 9));
 zooGarden.AddAnimal(new Rabbit("Пушистик", 2, 8));  
 zooGarden.AddAnimal(new Tiger("Шерхан", 10));     
+zooGarden.AddAnimal(new Wolf("Зуб", 9));
 
 zooGarden.AddInventory(new Table(101));
 zooGarden.AddInventory(new Computer(102));
