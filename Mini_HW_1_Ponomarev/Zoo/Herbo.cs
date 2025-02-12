@@ -3,8 +3,12 @@
 public class Herbo : Animal
 {
     public int KindLevel { get; set; }
-    public Herbo(string name, int food, int kindness) : base(name, food)
+    protected Herbo(string name, int food, int kindness) : base(name, food)
     {
+        if (kindness < 0 || kindness > 10)
+        {
+            throw new ArgumentException("Уровень доброты должен лежать в пределах от 0 до 10.");
+        }
         KindLevel = kindness;
     }
 }

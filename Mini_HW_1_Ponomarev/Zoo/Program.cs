@@ -17,7 +17,6 @@ zooGarden.AddAnimal(new Wolf("Зуб", 9));
 
 zooGarden.AddInventory(new Table(101));
 zooGarden.AddInventory(new Computer(102));
-
 zooGarden.AddInventory(new Table(2));
 
 zooGarden.ReportInventory();

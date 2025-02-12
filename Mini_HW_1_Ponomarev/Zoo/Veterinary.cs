@@ -7,7 +7,7 @@ public class Veterinary : IVeterinary
     {
     }
     /// <summary>
-    /// Проверка на то, что животное здорово (просто).
+    /// Проверка на то, что животное здорово (просто добавляем с вероятность 85%).
     /// </summary>
     /// <param name="animal"></param>
     /// <returns></returns>

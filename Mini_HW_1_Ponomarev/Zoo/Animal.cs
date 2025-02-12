@@ -8,6 +8,7 @@ public abstract class Animal : IAlive
     protected Animal(string name, int food)
     {
         Name = name;
+        if (food <= 0) {throw new System.ArgumentException("Кол-во потребляемой еды, должно быть больше 0 кг/день.");}
         Food = food;
     }
 }
