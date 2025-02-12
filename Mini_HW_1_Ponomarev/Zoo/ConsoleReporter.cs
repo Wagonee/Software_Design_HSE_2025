@@ -9,6 +9,7 @@ public class ConsoleReporter : IZooReporter
         {
             Console.WriteLine(animal);
         }
+        Console.WriteLine($"Общее кол-во: {animals.Count()}");
     }
     public void ReportTotalConsumption(IEnumerable<Animal> animals)
     {

@@ -3,7 +3,7 @@
 public class Herbo : Animal
 {
     public int KindLevel { get; set; }
-    protected Herbo(string name, int food, int kindness) : base(name, food)
+    protected Herbo(string name, int food, int healthLevel, int kindness) : base(name, food, healthLevel)
     {
         if (kindness < 0 || kindness > 10)
         {

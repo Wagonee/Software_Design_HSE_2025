@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
-namespace Zoo;
+﻿namespace Zoo;
 
 public class Table : Thing
 {
