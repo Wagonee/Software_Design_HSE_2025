@@ -1,6 +1,6 @@
 ﻿namespace Zoo;
 
-public class Predator : Animal
+public abstract class Predator : Animal
 {
     protected Predator(string name, int food, int healthLevel) : base(name, food, healthLevel) {}
 }

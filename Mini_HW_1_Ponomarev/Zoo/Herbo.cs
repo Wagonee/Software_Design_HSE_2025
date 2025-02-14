@@ -1,6 +1,6 @@
 ﻿namespace Zoo;
 
-public class Herbo : Animal
+public abstract class Herbo : Animal
 {
     public int KindLevel { get; set; }
     protected Herbo(string name, int food, int healthLevel, int kindness) : base(name, food, healthLevel)
