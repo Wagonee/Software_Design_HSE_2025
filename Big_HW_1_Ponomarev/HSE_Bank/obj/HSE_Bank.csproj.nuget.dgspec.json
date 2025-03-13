@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SE\\Projects\\HSE\\Software Design\\HSE_Bank\\HSE_Bank.csproj": {}
+    "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\HSE_Bank.csproj": {}
   },
   "projects": {
-    "C:\\SE\\Projects\\HSE\\Software Design\\HSE_Bank\\HSE_Bank.csproj": {
+    "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\HSE_Bank.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SE\\Projects\\HSE\\Software Design\\HSE_Bank\\HSE_Bank.csproj",
+        "projectUniqueName": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\HSE_Bank.csproj",
         "projectName": "HSE_Bank",
-        "projectPath": "C:\\SE\\Projects\\HSE\\Software Design\\HSE_Bank\\HSE_Bank.csproj",
+        "projectPath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\HSE_Bank.csproj",
         "packagesPath": "C:\\Users\\ponom\\.nuget\\packages\\",
-        "outputPath": "C:\\SE\\Projects\\HSE\\Software Design\\HSE_Bank\\obj\\",
+        "outputPath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

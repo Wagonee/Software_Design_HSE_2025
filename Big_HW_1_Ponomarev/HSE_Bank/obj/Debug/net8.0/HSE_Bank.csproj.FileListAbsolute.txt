@@ -1,0 +1,15 @@
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\HSE_Bank.exe
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\HSE_Bank.deps.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\HSE_Bank.runtimeconfig.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\HSE_Bank.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\HSE_Bank.pdb
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.GeneratedMSBuildEditorConfig.editorconfig
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.AssemblyInfoInputs.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.AssemblyInfo.cs
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.csproj.CoreCompileInputs.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.sourcelink.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\refint\HSE_Bank.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.pdb
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.genruntimeconfig.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\ref\HSE_Bank.dll
