@@ -1,6 +1,9 @@
-﻿namespace HSE_Bank.Domain.Interfaces.Decorators;
+﻿using System.Windows.Input;
+using HSE_Bank.Domain.Interfaces.Commands;
 
-public interface ICommandDecorator
+namespace HSE_Bank.Domain.Interfaces.Decorators;
+
+public interface ICommandDecorator : ICommands
 {
-    
+    ICommands Command { get; }
 }

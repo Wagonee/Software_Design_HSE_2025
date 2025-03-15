@@ -1,5 +1,6 @@
 ﻿using HSE_Bank.Domain.Entities;
 using HSE_Bank.Domain.Interfaces.Facades;
+using HSE_Bank.Domain.Interfaces.IFactories;
 using HSE_Bank.Domain.Interfaces.Repositories;
 using HSE_Bank.Infrastructure.Fabrics;
 
@@ -7,11 +8,11 @@ namespace HSE_Bank.Application.Facades;
 
 public class AccountFacade : IAccountFacade
 {
-    private readonly DomainObjectFactory _factory;
+    private readonly IDomainObjectFactory _factory;
     private readonly IAccountRepository _accountRepository;
     
 
-    public AccountFacade(IAccountRepository accountRepository, DomainObjectFactory factory)
+    public AccountFacade(IAccountRepository accountRepository, IDomainObjectFactory factory)
     {
         _accountRepository = accountRepository;
         _factory = factory;

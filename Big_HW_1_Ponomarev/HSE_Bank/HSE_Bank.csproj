@@ -8,11 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Commands\" />
-      <Folder Include="Application\Decorators\" />
       <Folder Include="Domain\Models\" />
       <Folder Include="Infrastructure\Exporters\" />
       <Folder Include="Infrastructure\Importers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.1.25080.5" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0-preview.1.25080.5" />
     </ItemGroup>
 
 </Project>

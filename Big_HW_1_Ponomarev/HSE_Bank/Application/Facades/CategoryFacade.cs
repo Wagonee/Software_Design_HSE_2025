@@ -1,5 +1,6 @@
 ﻿using HSE_Bank.Domain.Entities;
 using HSE_Bank.Domain.Interfaces.Facades;
+using HSE_Bank.Domain.Interfaces.IFactories;
 using HSE_Bank.Domain.Interfaces.Repositories;
 using HSE_Bank.Infrastructure.Fabrics;
 
@@ -7,10 +8,10 @@ namespace HSE_Bank.Application.Facades;
 
 public class CategoryFacade : ICategoryFacade
 {
-    private readonly DomainObjectFactory _factory;
+    private readonly IDomainObjectFactory _factory;
     private readonly ICategoryRepository _categoryRepository;
 
-    public CategoryFacade(DomainObjectFactory factory, ICategoryRepository categoryRepository)
+    public CategoryFacade(IDomainObjectFactory factory, ICategoryRepository categoryRepository)
     {
         _factory = factory;
         _categoryRepository = categoryRepository;
