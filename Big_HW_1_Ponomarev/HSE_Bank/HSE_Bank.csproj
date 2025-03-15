@@ -8,11 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Domain\Interfaces\IDecorators\" />
-      <Folder Include="Domain\Interfaces\IExporters\" />
-      <Folder Include="Domain\Interfaces\IFacades\" />
-      <Folder Include="Domain\Interfaces\IImporters\" />
-      <Folder Include="Domain\Interfaces\IRepositories\" />
+      <Folder Include="Application\" />
       <Folder Include="Domain\Models\" />
       <Folder Include="Infrastructure\Exporters\" />
       <Folder Include="Infrastructure\Importers\" />
