@@ -1,4 +1,4 @@
-﻿namespace HSE_Bank.Domain.Interfaces.IExporters;
+﻿namespace HSE_Bank.Domain.Interfaces.Exporters;
 
 public interface IDataExporter
 {

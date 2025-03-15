@@ -2,14 +2,14 @@
 
 public class Operation
 {
-    public int Id { get; private set; }
-    public TypeCategory Type { get; private set; }
-    public decimal Amount { get; private set; }
-    public DateTime Date { get; private set; }
-    public string? Description { get; private set; }
+    public int Id { get; set; }
+    public TypeCategory Type { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime Date { get; set; }
+    public string? Description { get; set; }
     
-    public int CategoryId { get; private set; }
-    public int BankAccountId { get; private set; }
+    public int CategoryId { get; set; }
+    public int BankAccountId { get; set; }
     
     internal Operation(int id, TypeCategory type, decimal amount, DateTime date,
         int bankAccountId, int categoryId, string? description = null)

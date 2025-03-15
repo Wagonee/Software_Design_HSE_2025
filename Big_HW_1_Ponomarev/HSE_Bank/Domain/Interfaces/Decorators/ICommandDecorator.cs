@@ -1,4 +1,4 @@
-﻿namespace HSE_Bank.Domain.Interfaces.IDecorators;
+﻿namespace HSE_Bank.Domain.Interfaces.Decorators;
 
 public interface ICommandDecorator
 {

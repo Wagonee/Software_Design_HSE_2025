@@ -2,17 +2,13 @@
 
 public class BankAccount
 {
-    public int Id { get; private set; }
+    public int Id { get; set; }
     public string? Name { get; set; }
-    public decimal Balance { get; private set; }
+    public decimal Balance { get; set; }
     internal BankAccount(string? name, decimal balance, int id)
     {
         Id = id;
         Name = name;
-        if (balance < 0)
-        {
-            throw new ArgumentException("Balance amount cannot be negative");
-        }
         Balance = balance;
     }
 
