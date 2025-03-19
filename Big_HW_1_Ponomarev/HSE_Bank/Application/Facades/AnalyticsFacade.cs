@@ -7,7 +7,7 @@ namespace HSE_Bank.Application.Facades;
 public class AnalyticsFacade : IAnalyticsFacade
 {
     private readonly IOperationRepository _operationRepository;
-
+    
     public AnalyticsFacade(IOperationRepository operationRepository)
     {
         _operationRepository = operationRepository;

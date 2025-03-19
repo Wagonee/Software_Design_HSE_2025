@@ -60,6 +60,15 @@ public class OperationFacade : IOperationFacade
         }
         int id = new Random().Next();
         var operation = _factory.CreateOperation(id, type, amount, date, bankAccountId, categoryId, description);
+        var account = _accountRepository.GetAccount(bankAccountId);
+        if (type == TypeCategory.Income)
+        {
+            account.Deposit(amount);
+        }
+        else
+        {
+            account.Withdraw(amount);
+        }
         _operationRepository.AddOperation(operation);
         return operation;
     }
@@ -71,6 +80,24 @@ public class OperationFacade : IOperationFacade
 
     public void DeleteOperation(int id)
     {
+        if (_operationRepository.GetOperationById(id) == null)
+        {
+            throw new ArgumentException("Operation not found");
+        }
+        var operation = _operationRepository.GetOperationById(id);
+        if (_accountRepository.GetAccount(operation.BankAccountId) == null)
+        {
+            throw new ArgumentException("Account not found");
+        }
+        var acc = _accountRepository.GetAccount(operation.BankAccountId);
+        if (operation.Type == TypeCategory.Income)
+        {
+            acc.Deposit(operation.Amount);
+        }
+        else
+        {
+            acc.Withdraw(operation.Amount);
+        }
         _operationRepository.DeleteOperation(id);
     }
 }
