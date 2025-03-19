@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "KZ2h9f9iJi4=",
+  "dgSpecHash": "+1k+Rb5l+6M=",
   "success": true,
   "projectFilePath": "C:\\SE\\Projects\\HSE\\Software_Design_HSE_2025\\Big_HW_1_Ponomarev\\HSE_Bank\\HSE_Bank.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,8 @@
     "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.0-preview.1.25080.5\\microsoft.extensions.logging.abstractions.10.0.0-preview.1.25080.5.nupkg.sha512",
     "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.options\\10.0.0-preview.1.25080.5\\microsoft.extensions.options.10.0.0-preview.1.25080.5.nupkg.sha512",
     "C:\\Users\\ponom\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.0-preview.1.25080.5\\microsoft.extensions.primitives.10.0.0-preview.1.25080.5.nupkg.sha512",
-    "C:\\Users\\ponom\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0-preview.1.25080.5\\system.diagnostics.diagnosticsource.10.0.0-preview.1.25080.5.nupkg.sha512"
+    "C:\\Users\\ponom\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0-preview.1.25080.5\\system.diagnostics.diagnosticsource.10.0.0-preview.1.25080.5.nupkg.sha512",
+    "C:\\Users\\ponom\\.nuget\\packages\\yamldotnet\\16.3.0\\yamldotnet.16.3.0.nupkg.sha512"
   ],
   "logs": []
 }

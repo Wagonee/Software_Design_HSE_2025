@@ -1,4 +1,6 @@
-﻿namespace HSE_Bank.Domain.Entities;
+﻿using HSE_Bank.Domain.Interfaces.Exporters;
+
+namespace HSE_Bank.Domain.Entities;
 
 public class Operation
 {
@@ -22,7 +24,9 @@ public class Operation
         CategoryId = categoryId;
         Description = description;
     }
-
+    
+    public string Accept(IDataExporter visitor) => visitor.ExportOperation(this);
+    
     public override string ToString()
     {
         return $"Id: {Id}, Type: {Type}, Amount: {Amount}, Date: {Date}";

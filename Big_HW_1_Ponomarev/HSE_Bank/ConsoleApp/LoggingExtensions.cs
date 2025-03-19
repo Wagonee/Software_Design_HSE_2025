@@ -18,8 +18,8 @@ namespace HSE_Bank.ConsoleApp
         public ILogger CreateLogger(string categoryName)
         {
             string logDirectory = Path.Combine(AppContext.BaseDirectory, "logs");
-            Directory.CreateDirectory(logDirectory); //  Create the directory if it doesn't exist
-            string filePath = Path.Combine(logDirectory, "app.log"); //  Log to a single file
+            Directory.CreateDirectory(logDirectory); 
+            string filePath = Path.Combine(logDirectory, "app.log"); 
             return new FileLogger(filePath);
         }
 
@@ -37,12 +37,12 @@ namespace HSE_Bank.ConsoleApp
 
         public IDisposable? BeginScope<TState>(TState state)
         {
-            return null; //  Not needed for simple file logging
+            return null; 
         }
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true; //  Log all levels
+            return true;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,

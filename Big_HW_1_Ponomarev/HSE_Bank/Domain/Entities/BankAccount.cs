@@ -1,5 +1,7 @@
-﻿namespace HSE_Bank.Domain.Entities;
+﻿using HSE_Bank.Domain.Interfaces.Exporters;
 
+namespace HSE_Bank.Domain.Entities;
+using HSE_Bank.Infrastructure.Exporters;
 public class BankAccount
 {
     public int Id { get; set; }
@@ -34,7 +36,8 @@ public class BankAccount
         }
         Balance -= amount;
     }
-    
+
+    public string Accept(IDataExporter visitor) => visitor.ExportBankAccount(this);
     public override string ToString()
     {
         return $"Id: {Id}, Name: {Name}, Balance: {Balance}";

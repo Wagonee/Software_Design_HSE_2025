@@ -1,4 +1,5 @@
-﻿namespace HSE_Bank.Domain.Entities;
+﻿using HSE_Bank.Domain.Interfaces.Exporters;
+namespace HSE_Bank.Domain.Entities;
 
 public enum TypeCategory
 {
@@ -18,7 +19,9 @@ public class Category
         Name = name;
         Type = type;
     }
-
+    
+    public string Accept(IDataExporter visitor) => visitor.ExportCategory(this);
+    
     public override string ToString()
     {
         return $"Id: {Id}, Name: {Name}, Type: {Type}";
