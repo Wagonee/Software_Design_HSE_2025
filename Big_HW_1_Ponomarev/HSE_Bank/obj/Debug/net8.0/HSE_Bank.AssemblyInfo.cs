@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HSE_Bank")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd78b3109e185f5abb550928321b26f83f68e20e")]
 [assembly: System.Reflection.AssemblyProductAttribute("HSE_Bank")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HSE_Bank")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

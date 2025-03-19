@@ -22,3 +22,4 @@ C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debu
 C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
 C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.csproj.AssemblyReference.cache
 C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\obj\Debug\net8.0\HSE_Bank.csproj.CopyComplete
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_1_Ponomarev\HSE_Bank\bin\Debug\net8.0\YamlDotNet.dll

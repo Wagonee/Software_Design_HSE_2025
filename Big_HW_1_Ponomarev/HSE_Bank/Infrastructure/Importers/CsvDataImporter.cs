@@ -28,12 +28,11 @@ public class CsvDataImporter<T> : DataImporter<T>
         }
         return result;
     }
-    
-    protected override void SaveData(IEnumerable<T> data)
+
+    public override IEnumerable<T> Import(string filepath)
     {
-        foreach (var item in data)
-        {
-            Console.WriteLine($"Imported {typeof(T).Name}: {item}");
-        }
+        var strings = File.ReadAllText(filepath);
+        var result = ParseData(strings);
+        return result;
     }
 }

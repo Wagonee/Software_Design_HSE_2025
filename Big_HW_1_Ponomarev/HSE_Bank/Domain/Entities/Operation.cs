@@ -13,6 +13,7 @@ public class Operation
     public int CategoryId { get; set; }
     public int BankAccountId { get; set; }
     
+    public Operation() {}
     internal Operation(int id, TypeCategory type, decimal amount, DateTime date,
         int bankAccountId, int categoryId, string? description = null)
     {
@@ -25,7 +26,7 @@ public class Operation
         Description = description;
     }
     
-    public string Accept(IDataExporter visitor) => visitor.ExportOperation(this);
+    public void Accept(IDataExporter visitor) => visitor.ExportOperation(this);
     
     public override string ToString()
     {

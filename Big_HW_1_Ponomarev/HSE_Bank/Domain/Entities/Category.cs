@@ -1,4 +1,5 @@
-﻿using HSE_Bank.Domain.Interfaces.Exporters;
+﻿using System.Text.Json.Serialization;
+using HSE_Bank.Domain.Interfaces.Exporters;
 namespace HSE_Bank.Domain.Entities;
 
 public enum TypeCategory
@@ -13,6 +14,7 @@ public class Category
     public string Name {get; set;}
     public TypeCategory Type {get; set;}
 
+    public Category() {}
     internal Category(int id, string name, TypeCategory type)
     {
         Id = id;
@@ -20,7 +22,7 @@ public class Category
         Type = type;
     }
     
-    public string Accept(IDataExporter visitor) => visitor.ExportCategory(this);
+    public void Accept(IDataExporter visitor) => visitor.ExportCategory(this);
     
     public override string ToString()
     {

@@ -1,80 +1,105 @@
 ﻿using HSE_Bank.Application.Commands;
-using HSE_Bank.Application.Decorators;
 using HSE_Bank.Application.Facades;
-using HSE_Bank.ConsoleApp;
 using HSE_Bank.Domain.Entities;
 using HSE_Bank.Domain.Interfaces.Facades;
 using HSE_Bank.Domain.Interfaces.IFactories;
 using HSE_Bank.Domain.Interfaces.Repositories;
 using HSE_Bank.Infrastructure.Fabrics;
 using HSE_Bank.Infrastructure.Repositories;
+using HSE_Bank.Infrastructure.Exporters;
+using HSE_Bank.Infrastructure.Importers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 var services = new ServiceCollection();
-services.AddLogging(builder =>
-{
-    builder.AddFileLogging();
-});
 
 services.AddSingleton<IDomainObjectFactory, DomainObjectFactory>();
-services.AddSingleton<IAccountRepository, InMemoryAccountRepository>(); 
+services.AddSingleton<IAccountRepository, InMemoryAccountRepository>();
 services.AddSingleton<ICategoryRepository, InMemoryCategoryRepository>();
 services.AddSingleton<IOperationRepository, InMemoryOperationRepository>();
 services.AddSingleton<IAccountFacade, AccountFacade>();
 services.AddSingleton<ICategoryFacade, CategoryFacade>();
 services.AddSingleton<IOperationFacade, OperationFacade>();
 services.AddSingleton<IAnalyticsFacade, AnalyticsFacade>();
-services.AddSingleton<CreateAccountCommand>();
 
 var serviceProvider = services.BuildServiceProvider();
-
-var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
 try
 {
     var accountFacade = serviceProvider.GetRequiredService<IAccountFacade>();
-    var operationFacade = serviceProvider.GetRequiredService<IOperationFacade>();
     var categoryFacade = serviceProvider.GetRequiredService<ICategoryFacade>();
-    var factory = serviceProvider.GetRequiredService<IDomainObjectFactory>();
-    var accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
-    var operationRepository = serviceProvider.GetRequiredService<IOperationRepository>();
-    var categoryRepository = serviceProvider.GetRequiredService<ICategoryRepository>();
+    var operationFacade = serviceProvider.GetRequiredService<IOperationFacade>();
 
-    var account1 = accountFacade.CreateAccount("My Account 1", 1000);
-    var account2 = accountFacade.CreateAccount("My Account 2", 500);
-    var category1 = categoryFacade.CreateCategory("Food", TypeCategory.Expense);
-    var category2 = categoryFacade.CreateCategory("Salary", TypeCategory.Income);
+    Console.WriteLine("=== Тест команд ===");
+    var createAccountCmd = new CreateAccountCommand(accountFacade, 1000, "Основной счет");
+    createAccountCmd.Execute();
+    var account = accountFacade.GetAllAccounts().FirstOrDefault();
+    Console.WriteLine($"Создан счет: {account}");
 
-    var createAccountCommand = new CreateAccountCommand(accountFacade, 200,
-        "Test Account");
-    var decoratedCommand = new ExecutionTimeDecorator(createAccountCommand,
-        serviceProvider.GetRequiredService<ILogger<ExecutionTimeDecorator>>());
+    var createCategoryCmd = new CreateCategoryCommand(categoryFacade, "Продукты", TypeCategory.Expense);
+    createCategoryCmd.Execute();
+    var category = categoryFacade.GetAllCategories().FirstOrDefault();
+    Console.WriteLine($"Создана категория: {category}");
 
-    decoratedCommand.Execute(); 
+    var createOperationCmd = new CreateOperationCommand(operationFacade, TypeCategory.Expense, 200, DateTime.Now, account.Id, category.Id, "Покупка еды");
+    createOperationCmd.Execute();
+    var operation = operationFacade.GetAllOperations().FirstOrDefault();
+    Console.WriteLine($"Создана операция: {operation}");
 
-    logger.LogInformation($"Created account: {account1}");
-    logger.LogInformation($"Created category: {category1}");
+    var jsonExporter = new JsonDataExporter();
+    var csvExporter = new CsvDataExporter();
 
-    Console.WriteLine();
-    var operation1 = operationFacade.CreateOperation(TypeCategory.Expense, 50,
-        DateTime.Now, account1.Id, category1.Id, "Lunch");
-    logger.LogInformation($"Created operation: {operation1}");
-
-    var analyticsFacade = serviceProvider.GetRequiredService<IAnalyticsFacade>();
-    var difference = analyticsFacade.GetDifferenceBetweenIncomeAndExpenses(
-        DateTime.Now.AddDays(-30), DateTime.Now);
-    logger.LogInformation($"Difference between income and expenses: {difference}");
-
+    Console.WriteLine("\n=== Экспорт данных в файлы (JSON, CSV) ===");
+    
     var allAccounts = accountFacade.GetAllAccounts();
-    foreach (var account in allAccounts)
+    var allCategories = categoryFacade.GetAllCategories();
+    var allOperations = operationFacade.GetAllOperations();
+
+    foreach (var acc in allAccounts)
     {
-        logger.LogInformation($"Account: {account}");
+        acc.Accept(jsonExporter);
+        acc.Accept(csvExporter);
+    }
+
+    foreach (var cat in allCategories)
+    {
+        cat.Accept(jsonExporter);
+        cat.Accept(csvExporter);
+    }
+
+    foreach (var op in allOperations)
+    {
+        op.Accept(jsonExporter);
+        op.Accept(csvExporter);
+    }
+
+    var jsonAccountImporter = new JsonDataImporter<BankAccount>();
+    var csvCategoryImporter = new CsvDataImporter<Category>();
+    var jsonOperationImporter = new JsonDataImporter<Operation>();
+
+    Console.WriteLine("\n=== Импорт данных из файлов (JSON, CSV) ===");
+
+    var importedAccounts = jsonAccountImporter.Import("accounts.json");
+    var importedCategories = csvCategoryImporter.Import("categories.csv");
+    var importedOperations = jsonOperationImporter.Import("operations.json");
+
+    foreach (var acc in importedAccounts)
+    {
+        Console.WriteLine($"Импортирован счет: {acc}");
+    }
+
+    foreach (var cat in importedCategories)
+    {
+        Console.WriteLine($"Импортирована категория: {cat}");
+    }
+
+    foreach (var op in importedOperations)
+    {
+        Console.WriteLine($"Импортирована операция: {op}");
     }
 }
 catch (Exception ex)
 {
-    logger.LogError(ex.Message, "An error occurred");
+    Console.WriteLine($"Ошибка во время выполнения программы: {ex.Message}");
 }
 
-logger.LogInformation("Application finished");
+Console.WriteLine("=== Завершение работы ===");

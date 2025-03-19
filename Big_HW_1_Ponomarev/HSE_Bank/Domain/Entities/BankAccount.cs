@@ -1,12 +1,17 @@
-﻿using HSE_Bank.Domain.Interfaces.Exporters;
+﻿using System.Text.Json.Serialization;
+using HSE_Bank.Domain.Interfaces.Exporters;
 
 namespace HSE_Bank.Domain.Entities;
 using HSE_Bank.Infrastructure.Exporters;
 public class BankAccount
 {
-    public int Id { get; set; }
     public string? Name { get; set; }
     public decimal Balance { get; set; }
+    public int Id { get; set; }
+   
+    public BankAccount() {}
+    
+    
     internal BankAccount(string? name, decimal balance, int id)
     {
         Id = id;
@@ -37,7 +42,7 @@ public class BankAccount
         Balance -= amount;
     }
 
-    public string Accept(IDataExporter visitor) => visitor.ExportBankAccount(this);
+    public void Accept(IDataExporter visitor) => visitor.ExportBankAccount(this);
     public override string ToString()
     {
         return $"Id: {Id}, Name: {Name}, Balance: {Balance}";

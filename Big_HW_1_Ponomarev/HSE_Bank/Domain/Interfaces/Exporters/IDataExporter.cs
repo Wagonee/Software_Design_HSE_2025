@@ -4,7 +4,7 @@ namespace HSE_Bank.Domain.Interfaces.Exporters;
 
 public interface IDataExporter
 {
-    string ExportBankAccount(BankAccount bankAccount);
-    string ExportCategory(Category category);
-    string ExportOperation(Operation operation);
+    void ExportBankAccount(BankAccount bankAccount);
+    void ExportCategory(Category category);
+    void ExportOperation(Operation operation);
 }
