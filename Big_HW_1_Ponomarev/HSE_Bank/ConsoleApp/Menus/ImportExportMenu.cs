@@ -2,7 +2,7 @@
 using HSE_Bank.Domain.Interfaces.Repositories;
 using HSE_Bank.Infrastructure.Exporters;
 using HSE_Bank.Infrastructure.Importers;
-using HSE_Bank.ConsoleApp.Utils; 
+using HSE_Bank.ConsoleApp.Utils;
 
 namespace HSE_Bank.ConsoleApp.Menus
 {
@@ -11,6 +11,15 @@ namespace HSE_Bank.ConsoleApp.Menus
         private static IAccountRepository _accountRepository;
         private static ICategoryRepository _categoryRepository;
         private static IOperationRepository _operationRepository;
+        
+        private static readonly string ExportFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Export");
+        private static readonly string AccountCsvFilePath = Path.Combine(ExportFolderPath, "accounts.csv");
+        private static readonly string CategoryCsvFilePath = Path.Combine(ExportFolderPath, "categories.csv");
+        private static readonly string OperationCsvFilePath = Path.Combine(ExportFolderPath, "operations.csv");
+
+        private static readonly string AccountJsonFilePath = Path.Combine(ExportFolderPath, "accounts.json");
+        private static readonly string CategoryJsonFilePath = Path.Combine(ExportFolderPath, "categories.json");
+        private static readonly string OperationJsonFilePath = Path.Combine(ExportFolderPath, "operations.json");
 
         public static void Init(
             IAccountRepository accountRepository,
@@ -141,18 +150,25 @@ namespace HSE_Bank.ConsoleApp.Menus
             Console.Clear();
             try
             {
+                if (!Directory.Exists(ExportFolderPath))
+                {
+                    Console.WriteLine("Папка экспорта не найдена.");
+                    ConsoleHelper.WaitForKey();
+                    return;
+                }
+
                 var accountImporter = new CsvDataImporter<BankAccount>();
-                var importedAccounts = accountImporter.Import("accounts.csv");
+                var importedAccounts = accountImporter.Import(AccountCsvFilePath);
                 foreach (var acc in importedAccounts)
                     _accountRepository.AddAccount(acc);
 
                 var categoryImporter = new CsvDataImporter<Category>();
-                var importedCategories = categoryImporter.Import("categories.csv");
+                var importedCategories = categoryImporter.Import(CategoryCsvFilePath);
                 foreach (var cat in importedCategories)
                     _categoryRepository.AddCategory(cat);
 
                 var operationImporter = new CsvDataImporter<Operation>();
-                var importedOperations = operationImporter.Import("operations.csv");
+                var importedOperations = operationImporter.Import(OperationCsvFilePath);
                 foreach (var op in importedOperations)
                     _operationRepository.AddOperation(op);
 
@@ -170,18 +186,25 @@ namespace HSE_Bank.ConsoleApp.Menus
             Console.Clear();
             try
             {
+                if (!Directory.Exists(ExportFolderPath))
+                {
+                    Console.WriteLine("Папка экспорта не найдена.");
+                    ConsoleHelper.WaitForKey();
+                    return;
+                }
+
                 var accountImporter = new JsonDataImporter<BankAccount>();
-                var importedAccounts = accountImporter.Import("accounts.json");
+                var importedAccounts = accountImporter.Import(AccountJsonFilePath);
                 foreach (var acc in importedAccounts)
                     _accountRepository.AddAccount(acc);
 
                 var categoryImporter = new JsonDataImporter<Category>();
-                var importedCategories = categoryImporter.Import("categories.json");
+                var importedCategories = categoryImporter.Import(CategoryJsonFilePath);
                 foreach (var cat in importedCategories)
                     _categoryRepository.AddCategory(cat);
 
                 var operationImporter = new JsonDataImporter<Operation>();
-                var importedOperations = operationImporter.Import("operations.json");
+                var importedOperations = operationImporter.Import(OperationJsonFilePath);
                 foreach (var op in importedOperations)
                     _operationRepository.AddOperation(op);
 
