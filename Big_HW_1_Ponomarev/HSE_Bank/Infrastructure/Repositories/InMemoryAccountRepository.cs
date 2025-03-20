@@ -31,12 +31,12 @@ public class InMemoryAccountRepository : IAccountRepository
         }
     }
 
-    public void UpdateAccount(BankAccount account)
+    public void UpdateAccount(int id, string name)
     {
-        int index = _accounts.FindIndex(a => a.Id == account.Id);
+        int index = _accounts.FindIndex(a => a.Id == id);
         if (index != -1)
         {
-            _accounts[index] = account;
+            _accounts[index].Name = name;
         }
     }
 }

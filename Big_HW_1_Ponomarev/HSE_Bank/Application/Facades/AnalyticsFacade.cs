@@ -13,23 +13,32 @@ public class AnalyticsFacade : IAnalyticsFacade
         _operationRepository = operationRepository;
     }
 
-    public decimal GetDifferenceBetweenIncomeAndExpenses(DateTime startDate, DateTime endDate)
+    public decimal GetDifferenceBetweenIncomeAndExpenses()
     {
-        var operations = _operationRepository.GetOperationsByPeriod(startDate,
-            endDate);
-        var income = operations.Where(o => o.Type == TypeCategory.Income)
-            .Sum(o => o.Amount);
-        var expenses = operations.Where(o => o.Type == TypeCategory.Expense)
-            .Sum(o => o.Amount);
-        return income - expenses;
+        var operations = _operationRepository.GetAllOperations();
+        var income = operations.Where(o => o.Type == TypeCategory.Income);
+        var expenses = operations.Where(o => o.Type == TypeCategory.Expense);
+        if (income is not null && expenses is not null)
+        {
+            return income.Sum(a => a.Amount) - expenses.Sum(a => a.Amount);
+        }
+        if (income is null && expenses is null)
+        {
+            return 0;
+        }
+        if (income is not null && expenses is null)
+        {
+            return income.Sum(a => a.Amount);
+        }
+        return -expenses.Sum(a => a.Amount);
     }
 
-    public IEnumerable<IGrouping<TypeCategory, Operation>> GroupOperationsByCategory(DateTime startDate, DateTime endDate)
+    public IEnumerable<IGrouping<TypeCategory, Operation>> GroupOperationsByCategory()
     {
-        var operations = _operationRepository.GetOperationsByPeriod(startDate,
-            endDate);
+        var operations = _operationRepository.GetAllOperations();
         return operations.GroupBy(o =>
             o.Type == TypeCategory.Income ? TypeCategory.Income :
                 TypeCategory.Expense);
     }
+
 }

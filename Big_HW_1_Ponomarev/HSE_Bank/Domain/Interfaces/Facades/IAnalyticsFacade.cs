@@ -3,7 +3,7 @@
 namespace HSE_Bank.Domain.Interfaces.Facades;
 
 public interface IAnalyticsFacade
-{
-    decimal GetDifferenceBetweenIncomeAndExpenses(DateTime startDate, DateTime endDate);
-    IEnumerable<IGrouping<TypeCategory, Operation>> GroupOperationsByCategory (DateTime startDate, DateTime endDate);
+{ 
+    decimal GetDifferenceBetweenIncomeAndExpenses();
+    IEnumerable<IGrouping<TypeCategory, Operation>> GroupOperationsByCategory ();
 }

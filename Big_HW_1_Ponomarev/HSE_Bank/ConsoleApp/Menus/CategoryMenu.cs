@@ -1,7 +1,6 @@
-﻿using System;
-using HSE_Bank.Application.Facades;
+﻿using HSE_Bank.Application.Facades;
 using HSE_Bank.Domain.Entities;
-using System.Collections.Generic;
+using HSE_Bank.Application.Commands;
 using HSE_Bank.ConsoleApp.Utils;
 
 namespace HSE_Bank.ConsoleApp.Menus
@@ -57,9 +56,9 @@ namespace HSE_Bank.ConsoleApp.Menus
             int typeChoice = ConsoleHelper.GetIntInput("Введите номер (1-2): ", 1, 2);
 
             TypeCategory type = typeChoice == 1 ? TypeCategory.Income : TypeCategory.Expense;
-
-            var category = _categoryFacade.CreateCategory(name, type);
-            Console.WriteLine($"✅ Категория '{category.Name}' ({category.Type}) создана.");
+            var categoryCreateCmd = new CreateCategoryCommand(_categoryFacade, name, type);
+            categoryCreateCmd.Execute();
+            Console.WriteLine($"Категория '{name}' ({type}) создана.");
             ConsoleHelper.WaitForKey();
         }
 
@@ -74,12 +73,13 @@ namespace HSE_Bank.ConsoleApp.Menus
             var category = _categoryFacade.GetCategoryById(categoryId);
             if (category == null)
             {
-                Console.WriteLine("❌ Ошибка: Категория не найдена.");
+                Console.WriteLine("Ошибка: категория не найдена.");
             }
             else
             {
-                _categoryFacade.DeleteCategory(categoryId);
-                Console.WriteLine($"✅ Категория '{category.Name}' удалена.");
+                var categoryDeleteCmd = new DeleteCategoryCommand(_categoryFacade, categoryId);
+                categoryDeleteCmd.Execute();
+                Console.WriteLine($"Категория '{category.Name}' удалена.");
             }
 
             ConsoleHelper.WaitForKey();
@@ -93,7 +93,7 @@ namespace HSE_Bank.ConsoleApp.Menus
 
             if (categories == null || categories.Count() == 0)
             {
-                Console.WriteLine("⚠ Нет доступных категорий.");
+                Console.WriteLine("Нет доступных категорий.");
             }
             else
             {

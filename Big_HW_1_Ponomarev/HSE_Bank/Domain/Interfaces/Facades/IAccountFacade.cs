@@ -8,5 +8,5 @@ public interface IAccountFacade
     IEnumerable<BankAccount> GetAllAccounts();
     BankAccount CreateAccount(string name, decimal balance);
     void DeleteAccount(int accountId);
-    void UpdateAccount(BankAccount account);
+    void UpdateAccount(int id, string name);
 }

@@ -8,12 +8,12 @@ namespace HSE_Bank.Application.Decorators;
 public class ExecutionTimeDecorator : ICommandDecorator
 {
     public ICommands Command { get; }
-    private ILogger<ExecutionTimeDecorator> _logger;
+   // private ILogger<ExecutionTimeDecorator> _logger;
 
-    public ExecutionTimeDecorator(ICommands command, ILogger<ExecutionTimeDecorator> logger)
+    public ExecutionTimeDecorator(ICommands command)
     {
         Command = command;
-        _logger = logger;
+       // _logger = logger;
     }
 
     public void Execute()
@@ -22,6 +22,7 @@ public class ExecutionTimeDecorator : ICommandDecorator
         Command.Execute();
         var endTime = DateTime.Now;
         var elapsedTime = endTime - executionTime;
-        _logger.LogInformation($"Command{Command.GetType().Name} is executed in {elapsedTime.TotalMilliseconds} milliseconds.");
+        Console.WriteLine($"Elapsed time of {Command.GetType().Name}: {elapsedTime}");
+     //   _logger.LogInformation($"Command{Command.GetType().Name} is executed in {elapsedTime.TotalMilliseconds} milliseconds.");
     }
 }

@@ -7,6 +7,6 @@ public interface IAccountRepository
     BankAccount? GetAccount(int id);
     IEnumerable<BankAccount> GetAllAccounts();
     void AddAccount(BankAccount account);
-    void UpdateAccount(BankAccount account);
+    void UpdateAccount(int id, string name);
     void DeleteAccount(int id);
 }

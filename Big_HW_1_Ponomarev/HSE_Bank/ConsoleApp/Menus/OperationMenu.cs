@@ -1,16 +1,14 @@
-﻿using System;
-using HSE_Bank.Application.Facades;
-using HSE_Bank.Domain.Entities;
-using System.Collections.Generic;
+﻿using HSE_Bank.Application.Facades;
+using HSE_Bank.Application.Commands;
 using HSE_Bank.ConsoleApp.Utils;
 
 namespace HSE_Bank.ConsoleApp.Menus
 {
     public static class OperationMenu
     {
-        private static OperationFacade _operationFacade;
-        private static AccountFacade _accountFacade;
-        private static CategoryFacade _categoryFacade;
+        private static OperationFacade? _operationFacade;
+        private static AccountFacade? _accountFacade;
+        private static CategoryFacade? _categoryFacade;
 
         public static void Init(OperationFacade operationFacade, AccountFacade accountFacade, CategoryFacade categoryFacade)
         {
@@ -59,9 +57,9 @@ namespace HSE_Bank.ConsoleApp.Menus
 
             ShowAllCategories();
             int categoryId = ConsoleHelper.GetIntInput("Введите ID категории: ", 1, int.MaxValue);
-            TypeCategory type = ConsoleHelper.GetTypeCategory("Введите тип категории ('+' - доход, '-' - расход): ");
             decimal amount = ConsoleHelper.GetDecimalInput("Введите сумму операции: ");
-            string description = ConsoleHelper.GetStringInput("Введите описание операции (необязательно): ");
+            Console.Write("Введите описание операции (необязательно): ");
+            string description = Console.ReadLine();
 
             var account = _accountFacade.GetAccountById(accountId);
             var category = _categoryFacade.GetCategoryById(categoryId);
@@ -72,8 +70,18 @@ namespace HSE_Bank.ConsoleApp.Menus
             }
             else
             {
-                var operation = _operationFacade.CreateOperation(type, amount, DateTime.Now, accountId, categoryId, description);
-                Console.WriteLine($"Операция добавлена: {operation.Amount} {operation.Type} на {account.Name} в категории {category.Name}");
+                if (account.Balance < amount)
+                {
+                    Console.WriteLine("Баланс не может быть отрицательным!");
+                }
+                else
+                {
+                    var operationCreateCmd = new CreateOperationCommand(_operationFacade, category.Type, amount,
+                        DateTime.Now, account.Id, category.Id, description);
+                    operationCreateCmd.Execute();
+                    Console.WriteLine(
+                        $"Операция добавлена: {amount} {category.Type} на {account.Name} в категории {category.Name}");
+                }
             }
 
             ConsoleHelper.WaitForKey();
@@ -86,7 +94,7 @@ namespace HSE_Bank.ConsoleApp.Menus
             ShowAllOperations();
 
             int operationId = ConsoleHelper.GetIntInput("Введите ID операции для удаления: ", 1, int.MaxValue);
-
+            
             var operation = _operationFacade.GetOperationById(operationId);
             if (operation == null)
             {
@@ -94,7 +102,8 @@ namespace HSE_Bank.ConsoleApp.Menus
             }
             else
             {
-                _operationFacade.DeleteOperation(operationId);
+                var deleteOperationCmd = new DeleteOperationCommand(_operationFacade, operationId);
+                deleteOperationCmd.Execute();
                 Console.WriteLine($"Операция с ID {operationId} удалена.");
             }
 

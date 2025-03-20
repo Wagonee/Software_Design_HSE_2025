@@ -1,7 +1,5 @@
-﻿using System;
-using HSE_Bank.Application.Facades;
-using HSE_Bank.Domain.Entities;
-using System.Collections.Generic;
+﻿using HSE_Bank.Application.Facades;
+using HSE_Bank.Application.Commands;
 using HSE_Bank.ConsoleApp.Utils;
 
 namespace HSE_Bank.ConsoleApp.Menus
@@ -24,9 +22,10 @@ namespace HSE_Bank.ConsoleApp.Menus
                 Console.WriteLine("1. Создать счет");
                 Console.WriteLine("2. Удалить счет");
                 Console.WriteLine("3. Показать все счета");
-                Console.WriteLine("4. Вернуться в главное меню");
+                Console.WriteLine("4. Редактировать счёт");
+                Console.WriteLine("5. Вернуться в главное меню");
 
-                int choice = ConsoleHelper.GetIntInput("Выберите действие (1-4): ", 1, 4);
+                int choice = ConsoleHelper.GetIntInput("Выберите действие (1-5): ", 1, 5);
 
                 switch (choice)
                 {
@@ -40,20 +39,48 @@ namespace HSE_Bank.ConsoleApp.Menus
                         ShowAllAccounts();
                         break;
                     case 4:
+                        UpdateAccount();
+                        break;
+                    case 5:
                         return;
                 }
             }
         }
 
+        private static void UpdateAccount()
+        {
+            Console.Clear();
+            Console.WriteLine("====== Редактирование существующего счёта ======");
+            ShowAllAccounts();
+
+            int accountId = ConsoleHelper.GetIntInput("Введите ID счета для редактирования: ", 1, int.MaxValue);
+
+            var account = _accountFacade.GetAccountById(accountId);
+            if (account == null)
+            {
+                Console.WriteLine("Ошибка: Счет не найден.");
+            }
+            else
+            {
+                string? newName = ConsoleHelper.GetStringInput("Введите новое имя для счёта: ");
+                var deleteAccCmd = new UpdateAccountCommand(_accountFacade, accountId, new string(newName ?? string.Empty));
+                deleteAccCmd.Execute();
+                Console.WriteLine($"Счет '{account.Name}' изменён.");
+            }
+
+            ConsoleHelper.WaitForKey();
+            
+        }
         private static void CreateAccount()
         {
             Console.Clear();
             Console.WriteLine("====== Создание нового счета ======");
             string name = ConsoleHelper.GetStringInput("Введите название счета: ");
             decimal balance = ConsoleHelper.GetDecimalInput("Введите начальный баланс: ");
-
-            var account = _accountFacade.CreateAccount(name, balance);
-            Console.WriteLine($"Счет '{account.Name}' создан с балансом {account.Balance}.");
+            
+            var createAccCmd = new CreateAccountCommand(_accountFacade, balance, name);
+            createAccCmd.Execute();
+            Console.WriteLine($"Счет '{name}' создан с балансом {balance}.");
             ConsoleHelper.WaitForKey();
         }
 
@@ -72,7 +99,8 @@ namespace HSE_Bank.ConsoleApp.Menus
             }
             else
             {
-                _accountFacade.DeleteAccount(accountId);
+                var deleteAccCmd = new DeleteAccountCommand(_accountFacade, accountId);
+                deleteAccCmd.Execute();
                 Console.WriteLine($"Счет '{account.Name}' удален.");
             }
 
@@ -87,7 +115,7 @@ namespace HSE_Bank.ConsoleApp.Menus
 
             if (accounts == null || accounts.Count() == 0)
             {
-                Console.WriteLine("⚠ Нет доступных счетов.");
+                Console.WriteLine("Нет доступных счетов.");
             }
             else
             {

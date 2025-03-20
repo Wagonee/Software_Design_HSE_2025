@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using HSE_Bank.Application.Facades;
-using HSE_Bank.ConsoleApp;
 using HSE_Bank.Infrastructure.Repositories;
 using HSE_Bank.ConsoleApp.Menus;
 using HSE_Bank.Domain.Interfaces.IFactories;
@@ -15,10 +14,12 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton<AccountFacade>()
     .AddSingleton<CategoryFacade>()
     .AddSingleton<OperationFacade>()
+    .AddSingleton<AnalyticsFacade>()
     .BuildServiceProvider();
 
 AccountMenu.Init(serviceProvider.GetRequiredService<AccountFacade>());
 CategoryMenu.Init(serviceProvider.GetRequiredService<CategoryFacade>());
 OperationMenu.Init(serviceProvider.GetRequiredService<OperationFacade>(), serviceProvider.GetRequiredService<AccountFacade>(), serviceProvider.GetRequiredService<CategoryFacade>());
-
+AnalyticsMenu.Init(serviceProvider.GetRequiredService<AnalyticsFacade>());
+ImportExportMenu.Init(serviceProvider.GetRequiredService<IAccountRepository>(), serviceProvider.GetRequiredService<ICategoryRepository>(), serviceProvider.GetRequiredService<IOperationRepository>());
 MainMenu.Show();

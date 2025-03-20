@@ -1,8 +1,6 @@
-﻿using System;
-using HSE_Bank.ConsoleApp.Menus;
-using HSE_Bank.ConsoleApp.Utils;
+﻿using HSE_Bank.ConsoleApp.Utils;
 
-namespace HSE_Bank.ConsoleApp
+namespace HSE_Bank.ConsoleApp.Menus
 {
     public static class MainMenu
     {
@@ -16,9 +14,9 @@ namespace HSE_Bank.ConsoleApp
                 Console.WriteLine("2. Управление категориями");
                 Console.WriteLine("3. Управление операциями");
                 Console.WriteLine("4. Аналитика");
-                Console.WriteLine("5. Выход");
-
-                int choice = ConsoleHelper.GetIntInput("Выберите действие (1-5): ", 1, 5);
+                Console.WriteLine("5. Импорт и экспорт данных");
+                Console.WriteLine("6. Выход");
+                var choice = ConsoleHelper.GetIntInput("Выберите действие (1-5): ", 1, 6);
 
                 switch (choice)
                 {
@@ -32,9 +30,12 @@ namespace HSE_Bank.ConsoleApp
                         OperationMenu.Show();
                         break;
                     case 4:
-                        //AnalyticsMenu.Show();
+                        AnalyticsMenu.Show();
                         break;
                     case 5:
+                        ImportExportMenu.Show();
+                        break;
+                    case 6:
                         Console.WriteLine("Выход из программы...");
                         return;
                 }

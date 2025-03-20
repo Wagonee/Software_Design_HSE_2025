@@ -42,8 +42,8 @@ public class AccountFacade : IAccountFacade
         _accountRepository.DeleteAccount(accountId);
     }
 
-    public void UpdateAccount(BankAccount account)
+    public void UpdateAccount(int id, string name)
     {
-        _accountRepository.UpdateAccount(account);
+        _accountRepository.UpdateAccount(id, name);
     }
 }
