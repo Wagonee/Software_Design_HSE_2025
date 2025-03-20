@@ -1,7 +1,6 @@
 ﻿using HSE_Bank.Domain.Interfaces.Exporters;
 using HSE_Bank.Domain.Entities;
 using System.Text;
-using System.IO;
 
 namespace HSE_Bank.Infrastructure.Exporters
 {

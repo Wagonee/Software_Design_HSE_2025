@@ -61,7 +61,7 @@ namespace HSE_Bank.ConsoleApp.Utils
                 Console.Write(message);
                 string? input = Console.ReadLine();
 
-                if (decimal.TryParse(input, out result) && result > 0)
+                if (decimal.TryParse(input, out result) && result >= 0)
                 {
                     return result;
                 }

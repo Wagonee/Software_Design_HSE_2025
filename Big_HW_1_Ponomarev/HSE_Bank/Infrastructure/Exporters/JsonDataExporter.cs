@@ -1,8 +1,6 @@
 ﻿using HSE_Bank.Domain.Interfaces.Exporters;
 using System.Text.Json;
 using HSE_Bank.Domain.Entities;
-using System.Collections.Generic;
-using System.IO;
 
 namespace HSE_Bank.Infrastructure.Exporters
 {

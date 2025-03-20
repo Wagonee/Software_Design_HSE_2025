@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using HSE_Bank.Domain.Interfaces.Exporters;
+﻿using HSE_Bank.Domain.Interfaces.Exporters;
 namespace HSE_Bank.Domain.Entities;
 
 public enum TypeCategory

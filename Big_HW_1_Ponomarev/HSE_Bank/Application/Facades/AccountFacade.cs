@@ -30,7 +30,6 @@ public class AccountFacade : IAccountFacade
 
     public BankAccount CreateAccount(string name, decimal balance)
     {
-        //TODO: Logic for id creation in work.
         var id = new Random().Next();
         var account = _factory.CreateBankAccount(name, balance, id);
         _accountRepository.AddAccount(account);

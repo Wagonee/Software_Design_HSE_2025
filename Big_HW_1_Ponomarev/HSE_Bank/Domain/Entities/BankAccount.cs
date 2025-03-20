@@ -1,8 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using HSE_Bank.Domain.Interfaces.Exporters;
+﻿using HSE_Bank.Domain.Interfaces.Exporters;
 
 namespace HSE_Bank.Domain.Entities;
-using HSE_Bank.Infrastructure.Exporters;
 public class BankAccount
 {
     public string? Name { get; set; }
@@ -10,7 +8,6 @@ public class BankAccount
     public int Id { get; set; }
    
     public BankAccount() {}
-    
     
     internal BankAccount(string? name, decimal balance, int id)
     {

@@ -1,6 +1,7 @@
 ﻿using HSE_Bank.Application.Facades;
 using HSE_Bank.Application.Commands;
 using HSE_Bank.ConsoleApp.Utils;
+using HSE_Bank.Domain.Entities;
 
 namespace HSE_Bank.ConsoleApp.Menus
 {
@@ -70,7 +71,7 @@ namespace HSE_Bank.ConsoleApp.Menus
             }
             else
             {
-                if (account.Balance < amount)
+                if (account.Balance < amount && category.Type == TypeCategory.Expense)
                 {
                     Console.WriteLine("Баланс не может быть отрицательным!");
                 }
