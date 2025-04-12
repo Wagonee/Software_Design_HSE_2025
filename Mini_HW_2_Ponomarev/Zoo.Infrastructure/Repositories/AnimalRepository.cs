@@ -1,5 +1,6 @@
 ﻿using Zoo.Domain.Entities;
 using Zoo.Domain.Interfaces;
+using Zoo.Infrastructure.Repositories;
 
 namespace Zoo.Infrastructure.Repositories;
 
