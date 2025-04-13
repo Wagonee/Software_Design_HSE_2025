@@ -59,11 +59,11 @@ public class Enclosure
         return null; 
     }
     
-    void Clean()
+    public void Clean()
     {
         LastCleanDate = DateTime.UtcNow;
     }
     
-    IEnumerable<Guid> GetAnimalIds() => _animalIds;
+    public IEnumerable<Guid> GetAnimalIds() => _animalIds;
 
 }
