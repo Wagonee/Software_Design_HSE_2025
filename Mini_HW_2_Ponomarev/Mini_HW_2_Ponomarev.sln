@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoo.Infrastructure", "Zoo.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoo.Presentation", "Zoo.Presentation\Zoo.Presentation.csproj", "{C75A89D2-9569-43F9-A310-146920288A7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoo.Tests", "Zoo.Tests\Zoo.Tests.csproj", "{ECE8BB62-011A-4DEC-B1A8-DD9AC65B1C19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{C75A89D2-9569-43F9-A310-146920288A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C75A89D2-9569-43F9-A310-146920288A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C75A89D2-9569-43F9-A310-146920288A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE8BB62-011A-4DEC-B1A8-DD9AC65B1C19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE8BB62-011A-4DEC-B1A8-DD9AC65B1C19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE8BB62-011A-4DEC-B1A8-DD9AC65B1C19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE8BB62-011A-4DEC-B1A8-DD9AC65B1C19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
