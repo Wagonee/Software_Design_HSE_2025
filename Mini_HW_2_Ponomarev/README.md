@@ -29,7 +29,7 @@ by Пономарев Николай from БПИ-234
 В проекте используется DI контейнер и написаны unit-тесты на Domain слой.
 ## Отчет о тестировании с помощью Swagger:
 ### Создание животного
-![](img/1.PNG)
+![](https://raw.githubusercontent.com/Wagonee/Software_Design_HSE_2025/main/img/Mini_HW_2_Ponomarev/img/1.PNG)
 ### Получение животного
 ![](img/2.png)
 ### Создание вольера
