@@ -7,11 +7,11 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["FileStoringService/FileStoringService.csproj", "FileStoringService/"]
-RUN dotnet restore "FileStoringService/FileStoringService.csproj"
+COPY ["FileStoringService.csproj", "./"]
+RUN dotnet restore "./FileStoringService.csproj"
 COPY . .
-WORKDIR "/src/FileStoringService"
-RUN dotnet build "FileStoringService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+# WORKDIR "/src/FileStoringService"
+RUN dotnet build "./FileStoringService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
