@@ -1,0 +1,15 @@
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\bin\Debug\net8.0\FileScanner.exe
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\bin\Debug\net8.0\FileScanner.deps.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\bin\Debug\net8.0\FileScanner.runtimeconfig.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\bin\Debug\net8.0\FileScanner.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\bin\Debug\net8.0\FileScanner.pdb
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.GeneratedMSBuildEditorConfig.editorconfig
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.AssemblyInfoInputs.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.AssemblyInfo.cs
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.csproj.CoreCompileInputs.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.sourcelink.json
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\refint\FileScanner.dll
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.pdb
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\FileScanner.genruntimeconfig.cache
+C:\SE\Projects\HSE\Software_Design_HSE_2025\Big_HW_2_Pononmarev\FileScanner\obj\Debug\net8.0\ref\FileScanner.dll
