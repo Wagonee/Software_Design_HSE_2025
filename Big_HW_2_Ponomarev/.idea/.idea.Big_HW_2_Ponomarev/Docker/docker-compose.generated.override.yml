@@ -1,0 +1,57 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.8"
+services:
+  apigateway:
+    build:
+      context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\ApiGateway"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ApiGateway.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "apigateway:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\ApiGateway:/app:rw"
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
+    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  fileanalysisservice:
+    build:
+      context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileAnalysisService"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/FileAnalysisService.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "fileanalysisservice:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileAnalysisService:/app:rw"
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
+    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
+  filestoringservice:
+    build:
+      context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileStoringService"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/FileStoringService.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "filestoringservice:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileStoringService:/app:rw"
+    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
+    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
