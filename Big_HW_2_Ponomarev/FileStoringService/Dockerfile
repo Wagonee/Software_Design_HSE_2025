@@ -16,7 +16,7 @@ EXPOSE 8080
 COPY --from=publish /app/publish .
 
 USER root
-RUN mkdir -p /app/storage_v2 && chown app:app /app/storage_v2
+RUN mkdir -p /app/storage && chown app:app /app/storage
 USER app
 
 ENTRYPOINT ["dotnet", "FileStoringService.dll"]

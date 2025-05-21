@@ -1,22 +1,21 @@
-﻿version: '3.8'
-
-services:
+﻿services:
   apigateway:
     build:
-      context: ./ApiGateway 
+      context: ./ApiGateway
       dockerfile: Dockerfile
     ports:
-      - "8000:8080" 
+      - "8000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
     depends_on:
       - filestoringservice
       - fileanalysisservice
+    restart: unless-stopped 
 
   filestoringservice:
     build:
-      context: ./FileStoringService 
+      context: ./FileStoringService
       dockerfile: Dockerfile
     ports:
       - "8001:8080"
@@ -24,12 +23,16 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__AppDatabase=Host=db_filestoring;Port=5432;Database=file_storing_db;Username=postgres_user;Password=postgres_password
+      - FileStorage__BasePath=/app/storage 
+    volumes:
+      - filestoring_files_data:/app/storage 
     depends_on:
       - db_filestoring
+    restart: unless-stopped 
 
   fileanalysisservice:
     build:
-      context: ./FileAnalysisService 
+      context: ./FileAnalysisService
       dockerfile: Dockerfile
     ports:
       - "8002:8080"
@@ -37,33 +40,42 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__AppDatabase=Host=db_fileanalysis;Port=5432;Database=file_analysis_db;Username=postgres_user;Password=postgres_password
-      - FileStoringServiceUrl=http://filestoringservice:8080
+      - ServiceUrls__FileStoringService=http://filestoringservice:8080
+      - FileStorageForAnalysis__BasePath=/app/analysis_storage 
+      - WordCloudApi__BaseUrl=https://quickchart.io/wordcloud 
+    volumes:
+      - analysis_files_data:/app/analysis_storage
     depends_on:
       - db_fileanalysis
       - filestoringservice
+    restart: unless-stopped 
 
   db_filestoring:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: postgres_user 
-      POSTGRES_PASSWORD: postgres_password
-      POSTGRES_DB: file_storing_db 
-    ports:
-      - "5433:5432" 
-    volumes:
-      - filestoring_data:/var/lib/postgresql/data
-
-  db_fileanalysis:
-    image: postgres:latest
+    image: postgres:15-alpine 
     environment:
       POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password 
-      POSTGRES_DB: file_analysis_db 
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: file_storing_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - filestoring_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  db_fileanalysis:
+    image: postgres:15-alpine 
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: file_analysis_db
     ports:
       - "5434:5432"
     volumes:
-      - fileanalysis_data:/var/lib/postgresql/data 
+      - fileanalysis_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
-volumes: 
+volumes:
   filestoring_data:
   fileanalysis_data:
+  filestoring_files_data:
+  analysis_files_data:

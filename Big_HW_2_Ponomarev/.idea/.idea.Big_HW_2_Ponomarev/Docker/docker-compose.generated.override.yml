@@ -1,57 +1,37 @@
 # This is a generated file. Not intended for manual editing.
-version: "3.8"
 services:
-  apigateway:
-    build:
-      context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\ApiGateway"
-      dockerfile: "Dockerfile"
-      target: "base"
-    command: []
-    entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/ApiGateway.dll"
-    environment:
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
-    image: "apigateway:dev"
-    ports: []
-    volumes:
-    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\ApiGateway:/app:rw"
-    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
-    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
-    working_dir: "/app"
-  fileanalysisservice:
-    build:
-      context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileAnalysisService"
-      dockerfile: "Dockerfile"
-      target: "base"
-    command: []
-    entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/FileAnalysisService.dll"
-    environment:
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
-    image: "fileanalysisservice:dev"
-    ports: []
-    volumes:
-    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileAnalysisService:/app:rw"
-    - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
-    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
-    working_dir: "/app"
   filestoringservice:
     build:
       context: "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileStoringService"
       dockerfile: "Dockerfile"
-      target: "base"
+      target: "build"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net8.0/FileStoringService.dll"
+    - "/opt/JetBrains/RiderDebuggerTools/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/JetBrains/RiderDebuggerTools/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57000"
+    - "--backend-port=57200"
+    - "--roslyn-worker-port=57400"
+    - "--timeout=60"
     environment:
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/JetBrains/RiderDebuggerTools"
+      RESHARPER_LOG_CONF: "/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
     image: "filestoringservice:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57000:57000"
+    - "127.0.0.1:57200:57200"
+    - "127.0.0.1:57400:57400"
     volumes:
     - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev\\FileStoringService:/app:rw"
     - "C:\\Users\\ponom\\RiderProjects\\Big_HW\\Big_HW_2_Ponomarev:/src:rw"
-    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\ponom\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\ponom\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.3.4\\\
+      Linux64:/opt/JetBrains/RiderDebuggerTools"
+    - "C:\\Users\\ponom\\AppData\\Local\\Programs\\Rider\\bin\\backend-log.xml:/etc/opt/JetBrains/RiderDebuggerTools/backend-log.xml"
+    - "C:\\Users\\ponom\\AppData\\Local\\JetBrains\\Rider2024.3\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2025_5_21_18_30_40:/var/opt/JetBrains/RiderDebuggerTools:rw"
     working_dir: "/app"
