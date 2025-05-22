@@ -45,7 +45,7 @@ namespace FileAnalysisService.Services
             try
             {
                 _logger.LogInformation("Calling WordCloudApiClient for FileId: {FileId}", fileId);
-                var wcParams = new WordCloudParameters { Language = "ru", Format = "png" }; // Example parameters
+                var wcParams = new WordCloudParameters { Language = "ru", Format = "png" }; 
                 Stream? imageStream = await _wordCloudApiClient.GenerateWordCloudAsync(textContent, wcParams);
 
                 if (imageStream == null || imageStream.Length == 0)

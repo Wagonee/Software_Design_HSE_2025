@@ -1,5 +1,4 @@
-﻿using FileAnalysisService.Services;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace FileAnalysisService.Services
 {
@@ -66,7 +65,7 @@ namespace FileAnalysisService.Services
                 _logger.LogWarning("File not found at: {FilePath}", filePath);
                 throw new FileNotFoundException("File not found in storage.", storedFileName);
             }
-            return Task.FromResult<Stream>(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)); // Добавил FileShare.Read
+            return Task.FromResult<Stream>(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)); 
         }
 
         public Task<bool> DeleteFileAsync(string storedFileName)
