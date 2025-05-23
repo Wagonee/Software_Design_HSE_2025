@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-
-namespace FileAnalysisService.Clients;
+﻿namespace FileAnalysisService.Clients;
 
 public class FileStoringServiceClient : IFileStoringServiceClient
 {

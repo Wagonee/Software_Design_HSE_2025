@@ -1,5 +1,5 @@
 ﻿using FileAnalysisService.Clients;
-using System.Text; // For Encoding
+using System.Text; 
 
 namespace FileAnalysisService.Services
 {

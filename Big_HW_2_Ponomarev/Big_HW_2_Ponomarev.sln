@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAnalysisService", "File
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStoringService", "FileStoringService\FileStoringService.csproj", "{B43204CE-0927-4ADC-B197-3E5EFF6BDF89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStoringService.Tests", "FileStoringService.Tests\FileStoringService.Tests.csproj", "{9BA7966D-CAE4-4577-BE9B-8E98178B4123}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileAnalysisService.Tests", "FileAnalysisService.Tests\FileAnalysisService.Tests.csproj", "{6C980D92-80FA-47EF-81E1-EC48E0C6446E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{B43204CE-0927-4ADC-B197-3E5EFF6BDF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B43204CE-0927-4ADC-B197-3E5EFF6BDF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B43204CE-0927-4ADC-B197-3E5EFF6BDF89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BA7966D-CAE4-4577-BE9B-8E98178B4123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BA7966D-CAE4-4577-BE9B-8E98178B4123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BA7966D-CAE4-4577-BE9B-8E98178B4123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BA7966D-CAE4-4577-BE9B-8E98178B4123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C980D92-80FA-47EF-81E1-EC48E0C6446E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C980D92-80FA-47EF-81E1-EC48E0C6446E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C980D92-80FA-47EF-81E1-EC48E0C6446E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C980D92-80FA-47EF-81E1-EC48E0C6446E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
