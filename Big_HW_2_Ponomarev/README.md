@@ -183,7 +183,7 @@ Swagger UI для API Gateway агрегирует спецификации дв
   ![](img/get_words_cloud.png)
   ![](img/words_cloud.png)
 ---
-## 3. Docker и Запуск Проекта
+## 3. Docker и запуск проекта
 
 Проект использует Docker и Docker Compose для развертывания и запуска сервисов и баз данных.
 Конфигурация `docker-compose.yml` включает:
