@@ -1,0 +1,24 @@
+﻿services:
+  shoppingservice:
+    image: shoppingservice
+    build:
+      context: .
+      dockerfile: ShoppingService/Dockerfile
+
+  ordersservice:
+    image: ordersservice
+    build:
+      context: .
+      dockerfile: OrdersService/Dockerfile
+
+  paymentsservice:
+    image: paymentsservice
+    build:
+      context: .
+      dockerfile: PaymentsService/Dockerfile
+
+  apigateway:
+    image: apigateway
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
