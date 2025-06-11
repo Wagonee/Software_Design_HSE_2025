@@ -1,0 +1,6 @@
+﻿services:
+  shoppingservice:
+    image: shoppingservice
+    build:
+      context: .
+      dockerfile: ShoppingService/Dockerfile
