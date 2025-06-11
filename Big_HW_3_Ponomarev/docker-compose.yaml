@@ -1,0 +1,90 @@
+﻿version: '3.9'
+
+services:
+  ordersdb:
+    image: postgres:15
+    container_name: ordersdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orders_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - orders_pgdata:/var/lib/postgresql/data
+    networks:
+      - shopnet
+
+  paymentsdb:
+    image: postgres:15
+    container_name: paymentsdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: payments_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - payments_pgdata:/var/lib/postgresql/data
+    networks:
+      - shopnet
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    
+      - "15672:15672"  
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - shopnet
+
+  ordersservice:
+    build:
+      context: .
+      dockerfile: OrdersService/Dockerfile
+    container_name: ordersservice
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ordersdb
+      - rabbitmq
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__OrdersDb: "Host=ordersdb;Port=5432;Database=orders_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    networks:
+      - shopnet
+
+  paymentsservice:
+    build:
+      context: .
+      dockerfile: PaymentsService/Dockerfile
+    container_name: paymentsservice
+    ports:
+      - "8081:80"
+    depends_on:
+      - paymentsdb
+      - rabbitmq
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PaymentsDb: "Host=paymentsdb;Port=5432;Database=payments_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    networks:
+      - shopnet
+
+volumes:
+  orders_pgdata:
+  payments_pgdata:
+
+networks:
+  shopnet:
