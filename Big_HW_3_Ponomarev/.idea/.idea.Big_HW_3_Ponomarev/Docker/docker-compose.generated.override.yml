@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.9"
+services:
+  paymentsservice:
+    build:
+      context: "C:\\Users\\ponom\\RiderProjects\\BigHW_3\\Big_HW_3_Ponomarev"
+      dockerfile: "PaymentsService/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/PaymentsService.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "paymentsservice:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\ponom\\RiderProjects\\BigHW_3\\Big_HW_3_Ponomarev\\PaymentsService:/app:rw"
+    - "C:\\Users\\ponom\\RiderProjects\\BigHW_3\\Big_HW_3_Ponomarev:/src:rw"
+    - "C:\\Users\\ponom\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
