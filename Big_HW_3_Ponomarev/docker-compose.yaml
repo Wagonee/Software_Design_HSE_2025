@@ -40,6 +40,21 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - shopnet
+  apigateway:  
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    container_name: apigateway
+    ports:
+      - "8000:8080"  
+    depends_on:
+      - ordersservice
+      - paymentsservice
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_ENVIRONMENT: Development
+    networks:
+      - shopnet
 
   ordersservice:
     build:
