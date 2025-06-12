@@ -133,3 +133,4 @@ C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\PaymentsService\bin\Debu
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\PaymentsService\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\PaymentsService\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\PaymentsService\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\PaymentsService\bin\Debug\net8.0\RabbitMQ.Client.dll

@@ -1,10 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersService", "OrdersService\OrdersService.csproj", "{109E3DCE-8031-4015-AEAD-FAE99A210FC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentsService", "PaymentsService\PaymentsService.csproj", "{8907FED9-1BE2-43EE-98A1-99830FDF49BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{82CD644A-9490-4758-811A-2B76B3E9D7BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentsService.Tests", "PaymentsService.Tests\PaymentsService.Tests.csproj", "{F4B7A48F-0063-49DC-A463-F2F8386C1468}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersService.Tests", "OrdersService.Tests\OrdersService.Tests.csproj", "{7AF9E6F1-53FB-4474-B636-AC4D179EAE68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +29,13 @@ Global
 		{82CD644A-9490-4758-811A-2B76B3E9D7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82CD644A-9490-4758-811A-2B76B3E9D7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82CD644A-9490-4758-811A-2B76B3E9D7BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B7A48F-0063-49DC-A463-F2F8386C1468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B7A48F-0063-49DC-A463-F2F8386C1468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B7A48F-0063-49DC-A463-F2F8386C1468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B7A48F-0063-49DC-A463-F2F8386C1468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AF9E6F1-53FB-4474-B636-AC4D179EAE68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AF9E6F1-53FB-4474-B636-AC4D179EAE68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AF9E6F1-53FB-4474-B636-AC4D179EAE68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AF9E6F1-53FB-4474-B636-AC4D179EAE68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
