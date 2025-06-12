@@ -68,11 +68,12 @@ services:
       dockerfile: PaymentsService/Dockerfile
     container_name: paymentsservice
     ports:
-      - "8081:80"
+      - "8081:8080"
     depends_on:
       - paymentsdb
       - rabbitmq
     environment:
+      ASPNETCORE_URLS: http://+:8080
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__PaymentsDb: "Host=paymentsdb;Port=5432;Database=payments_db;Username=postgres;Password=postgres"
       RabbitMQ__Host: rabbitmq
