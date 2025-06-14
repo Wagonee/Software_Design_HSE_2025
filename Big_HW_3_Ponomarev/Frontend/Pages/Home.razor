@@ -1,0 +1,172 @@
+﻿@page "/"
+@inject HttpClient Http
+@using Frontend.Models
+
+<PageTitle>Shopping system</PageTitle>
+
+<div class="container">
+    <h1>Shopping system</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h4>Управление счетом</h4>
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">UserID</span>
+                        <input @bind="_userId" class="form-control" placeholder="Введите ваш userId"/>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-outline-primary" @onclick="CreateAccount" disabled="@string.IsNullOrEmpty(_userId)">Создать счет</button>
+                        <button class="btn btn-info" @onclick="CheckBalance" disabled="@string.IsNullOrEmpty(_userId)">Проверить баланс</button>
+                    </div>
+
+                    @if (_userAccount != null)
+                    {
+                        <div class="alert alert-success">
+                            Текущий баланс: <strong>@_userAccount.Balance</strong>
+                        </div>
+                    }
+
+                    <div class="input-group mb-3">
+                        <input @bind="_depositAmount" type="number" class="form-control" placeholder="Сумма пополнения"/>
+                        <button class="btn btn-primary" @onclick="Deposit" disabled="@(_userAccount == null)">Пополнить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h4>Управление заказами</h4>
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <input @bind="_orderAmount" type="number" class="form-control" placeholder="Сумма заказа"/>
+                        <button class="btn btn-success" @onclick="CreateOrder" disabled="@(_userAccount == null)">Создать заказ</button>
+                    </div>
+
+                    <button class="btn btn-secondary" @onclick="GetUserOrders" disabled="@string.IsNullOrEmpty(_userId)">Обновить список заказов</button>
+
+                    @if (_userOrders.Any())
+                    {
+                        <ul class="list-group mt-3">
+                            @foreach (var order in _userOrders.OrderByDescending(o => o.CreatedAt))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Заказ от @order.CreatedAt.ToLocalTime().ToString("g") на <strong>@order.Amount</strong></span>
+                                    <span class="badge bg-@GetStatusBadgeColor(order.Status) rounded-pill">@order.Status</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="mt-3">Заказов пока нет.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <div class="alert alert-info mt-3">@_statusMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <div class="alert alert-danger mt-3">@_errorMessage</div>
+    }
+</div>
+
+@code {
+    private string _userId = "user123";
+    private decimal _depositAmount = 500;
+    private decimal _orderAmount = 150;
+
+    private string _statusMessage = "";
+    private string _errorMessage = "";
+
+    private AccountDto? _userAccount;
+    private List<OrderDto> _userOrders = [];
+
+    private async Task HandleApiCall(Func<Task<HttpResponseMessage>> apiCall, string successMessage)
+    {
+        _errorMessage = "";
+        _statusMessage = "Выполняется запрос...";
+        try
+        {
+            var response = await apiCall();
+            if (response.IsSuccessStatusCode)
+            {
+                _statusMessage = successMessage;
+                await InvokeAsync(StateHasChanged);  
+                await Task.Delay(500); 
+                await RefreshAllData();
+            }
+            else
+            {
+                _errorMessage = $"Ошибка: {response.StatusCode}, {await response.Content.ReadAsStringAsync()}";
+                _statusMessage = "";
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = $"Исключение: {ex.Message}";
+            _statusMessage = "";
+        }
+    }
+
+    private async Task RefreshAllData()
+    {
+        if (!string.IsNullOrEmpty(_userId))
+        {
+            await GetUserOrders();
+            await CheckBalance();
+        }
+    }
+
+    private async Task CreateAccount() => await HandleApiCall(
+        () => Http.PostAsync($"/payments-api/accounts?userId={_userId}", null),
+        $"Счет для {_userId} успешно создан."
+    );
+
+    private async Task CheckBalance()
+    {
+        try
+        {
+            _userAccount = await Http.GetFromJsonAsync<AccountDto>($"/payments-api/accounts/{_userId}/balance");
+        }
+        catch { _userAccount = null; }
+    }
+
+    private async Task Deposit() => await HandleApiCall(
+        () => Http.PostAsync($"/payments-api/accounts/{_userId}/deposit?amount={_depositAmount}", null),
+        $"Счет {_userId} пополнен на {_depositAmount}."
+    );
+
+    private async Task CreateOrder() => await HandleApiCall(
+        () => Http.PostAsync($"/orders-api/orders?userId={_userId}&amount={_orderAmount}", null),
+        $"Заказ на сумму {_orderAmount} создан. Ожидайте обновления статуса."
+    );
+
+    private async Task GetUserOrders()
+    {
+        try
+        {
+            var result = await Http.GetFromJsonAsync<List<OrderDto>>($"/orders-api/orders/{_userId}");
+            _userOrders = result ?? new List<OrderDto>();
+        }
+        catch { _userOrders = new List<OrderDto>(); }
+    }
+
+    private static string GetStatusBadgeColor(string status) => status switch
+    {
+        "Paid" => "success",
+        "Failed" => "danger",
+        _ => "secondary"
+    };
+}
