@@ -97,6 +97,17 @@ services:
       RabbitMQ__Password: guest
     networks:
       - shopnet
+  frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    container_name: frontend
+    ports:
+      - "8082:80"
+    depends_on:
+      - apigateway
+    networks:
+      - shopnet
 
 volumes:
   orders_pgdata:
