@@ -9,7 +9,7 @@ namespace OrdersService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrdersController(OrdersDbContext context) : ControllerBase
+public class OrdersController(OrdersDbContext context, SocketManager socketManager) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromQuery] string userId, [FromQuery] decimal amount)
@@ -45,6 +45,9 @@ public class OrdersController(OrdersDbContext context) : ControllerBase
         context.OutboxMessages.Add(outboxMessage);
 
         await context.SaveChangesAsync();
+        var notificationMessage = $"Заказ {order.Id} успешно создан и принят в обработку.";
+        await socketManager.SendMessage(userId, notificationMessage);
+        
         return AcceptedAtAction(nameof(GetOrderStatus), new { orderId = order.Id }, order);
     }
 

@@ -33,22 +33,24 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"    
-      - "15672:15672"  
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - shopnet
-  apigateway:  
+  
+  apigateway:
     build:
       context: .
       dockerfile: ApiGateway/Dockerfile
     container_name: apigateway
     ports:
-      - "8000:8080"  
+      - "8000:8080"
     depends_on:
-      - ordersservice
+      - ordersservice1
+      - ordersservice2
       - paymentsservice
     environment:
       ASPNETCORE_URLS: http://+:8080
@@ -56,13 +58,30 @@ services:
     networks:
       - shopnet
 
-  ordersservice:
+  ordersservice1:
     build:
       context: .
       dockerfile: OrdersService/Dockerfile
-    container_name: ordersservice
-    ports:
-      - "8080:8080"
+    container_name: ordersservice1
+    depends_on:
+      - ordersdb
+      - rabbitmq
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__OrdersDb: "Host=ordersdb;Port=5432;Database=orders_db;Username=postgres;Password=postgres"
+      RabbitMQ__Host: rabbitmq
+      RabbitMQ__Port: 5672
+      RabbitMQ__Username: guest
+      RabbitMQ__Password: guest
+    networks:
+      - shopnet
+
+  ordersservice2:
+    build:
+      context: .
+      dockerfile: OrdersService/Dockerfile
+    container_name: ordersservice2
     depends_on:
       - ordersdb
       - rabbitmq
@@ -97,6 +116,7 @@ services:
       RabbitMQ__Password: guest
     networks:
       - shopnet
+
   frontend:
     build:
       context: .

@@ -8,7 +8,7 @@ using RabbitMQ.Client.Events;
 
 namespace OrdersService.Messaging.Consumers;
 
-public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<PaymentResultConsumer> logger)
+public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<PaymentResultConsumer> logger, SocketManager socketManager)
     : BackgroundService
 {
     private IModel? _channel;
@@ -98,7 +98,8 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
             await dbContext.SaveChangesAsync();
             
             logger.LogInformation("Статус заказа {OrderId} обновлен на {Status}", order.Id, order.Status);
-
+            var notificationMessage = $"Статус вашего заказа {order.Id} изменен на '{order.Status}'.";
+            await socketManager.SendMessage(order.UserId, notificationMessage);
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         }
         catch (Exception ex)
