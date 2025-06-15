@@ -236,7 +236,29 @@
                 if (result.MessageType == System.Net.WebSockets.WebSocketMessageType.Text)
                 {
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    await JSRuntime.InvokeVoidAsync("showToastr", "info", message);
+                    try
+                    {
+                        var doc = System.Text.Json.JsonDocument.Parse(message);
+                        if (doc.RootElement.TryGetProperty("Balance", out var balanceElement))
+                        {
+                            activeAccount.Balance = balanceElement.GetDecimal();
+                            StateHasChanged();
+                        }
+
+                        var text = doc.RootElement.TryGetProperty("Message", out var msgEl) ? msgEl.GetString() : message;
+                        var toastType = "info";
+                        if (doc.RootElement.TryGetProperty("Status", out var statusEl))
+                        {
+                            var status = statusEl.GetString();
+                            if (string.Equals(status, "Paid", System.StringComparison.OrdinalIgnoreCase)) toastType = "success";
+                            else if (string.Equals(status, "Failed", System.StringComparison.OrdinalIgnoreCase)) toastType = "error";
+                        }
+                        await JSRuntime.InvokeVoidAsync("showToastr", toastType, text);
+                    }
+                    catch (System.Text.Json.JsonException)
+                    {
+                        await JSRuntime.InvokeVoidAsync("showToastr", "info", message);
+                    }
                 }
             }
             catch (OperationCanceledException) { break; }

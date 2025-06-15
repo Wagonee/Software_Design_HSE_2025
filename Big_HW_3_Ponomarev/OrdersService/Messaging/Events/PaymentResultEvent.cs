@@ -4,4 +4,5 @@ public class PaymentResultEvent
 {
     public Guid OrderId { get; set; }
     public string Status { get; set; } = string.Empty;
+    public decimal Balance { get; set; }
 }

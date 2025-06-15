@@ -101,3 +101,10 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+/* Larger toast notifications */
+.toast {
+    font-size: 1.2rem;
+    min-width: 350px;
+}
+
