@@ -24,7 +24,6 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
             {
                 if (_channel == null || _channel.IsClosed)
                 {
-                    var factory = new ConnectionFactory {};  
                      _channel = ConnectToRabbitMq();
                 }
 
@@ -58,7 +57,8 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
 
         var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += OnMessageReceived;
-
+        
+        channel.BasicQos(0, 1, false);
         channel.BasicConsume(queue: QueueName, autoAck: false, consumer: consumer);
         
         logger.LogInformation("PaymentResultConsumer успешно подключен и слушает очередь '{QueueName}'.", QueueName);
@@ -104,13 +104,21 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
                 Status = order.Status.ToString()
             };
             var json = JsonSerializer.Serialize(payload);
-            await socketManager.SendMessage(order.UserId, json);
+            var sent = await socketManager.SendMessage(order.UserId, json);
+
+            if (!sent)
+            {
+                logger.LogWarning("WebSocket для пользователя {UserId} недоступен. Сообщение будет повторено.", order.UserId);
+                _channel.BasicNack(eventArgs.DeliveryTag, false, true);
+                return;
+            }
+
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Ошибка при обработке сообщения о результате платежа.");
-            _channel.BasicNack(eventArgs.DeliveryTag, false, false);
+            _channel.BasicNack(eventArgs.DeliveryTag, false, true);
         }
     }
 }

@@ -76,7 +76,7 @@ public class OrderCreatedConsumer(IServiceScopeFactory scopeFactory, ILogger<Ord
         if (!messageEnvelope.TryGetProperty("MessageId", out var idElement) || !idElement.TryGetGuid(out var messageId))
         {
             logger.LogError("Не удалось извлечь MessageId из сообщения.");
-            _channel.BasicNack(eventArgs.DeliveryTag, false, false);
+            _channel.BasicNack(eventArgs.DeliveryTag, false, true);
             return;
         }
 

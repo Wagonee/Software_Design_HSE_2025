@@ -29,10 +29,10 @@ public class OutboxWorker(IServiceScopeFactory scopeFactory, ILogger<OutboxWorke
             }
             else
             {
-                logger.LogWarning("Канал RabbitMQ недоступен для Outbox. Повторная попытка через 5 секунд.");
+                logger.LogWarning("Канал RabbitMQ недоступен для Outbox. Повторная попытка через 1 секунду.");
             }
             
-            await Task.Delay(5000, stoppingToken);
+            await Task.Delay(1000, stoppingToken);
         }
     }
 
