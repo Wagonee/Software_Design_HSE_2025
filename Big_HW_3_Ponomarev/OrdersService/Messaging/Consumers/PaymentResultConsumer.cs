@@ -17,7 +17,6 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Delay(5000, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -98,8 +97,14 @@ public class PaymentResultConsumer(IServiceScopeFactory scopeFactory, ILogger<Pa
             await dbContext.SaveChangesAsync();
             
             logger.LogInformation("Статус заказа {OrderId} обновлен на {Status}", order.Id, order.Status);
-            var notificationMessage = $"Статус вашего заказа {order.Id} изменен на '{order.Status}'.";
-            await socketManager.SendMessage(order.UserId, notificationMessage);
+            var payload = new
+            {
+                Message = $"Статус вашего заказа {order.Id} изменен на '{order.Status}'.",
+                Balance = @event.Balance,
+                Status = order.Status.ToString()
+            };
+            var json = JsonSerializer.Serialize(payload);
+            await socketManager.SendMessage(order.UserId, json);
             _channel.BasicAck(eventArgs.DeliveryTag, false);
         }
         catch (Exception ex)

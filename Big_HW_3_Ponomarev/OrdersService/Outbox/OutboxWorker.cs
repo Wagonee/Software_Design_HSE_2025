@@ -14,7 +14,6 @@ public class OutboxWorker(IServiceScopeFactory scopeFactory, ILogger<OutboxWorke
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Delay(5000, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {

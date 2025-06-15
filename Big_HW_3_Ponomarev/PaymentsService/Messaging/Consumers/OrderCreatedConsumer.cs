@@ -19,7 +19,6 @@ public class OrderCreatedConsumer(IServiceScopeFactory scopeFactory, ILogger<Ord
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        await Task.Delay(5000, stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -117,7 +116,8 @@ public class OrderCreatedConsumer(IServiceScopeFactory scopeFactory, ILogger<Ord
         {
             OrderId = @event.OrderId,
             UserId = @event.UserId,
-            Status = paymentStatus
+            Status = paymentStatus,
+            Balance = account?.Balance ?? 0
         };
         
         var outboxMessage = new OutboxMessage
