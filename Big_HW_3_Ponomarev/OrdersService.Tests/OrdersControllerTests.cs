@@ -20,8 +20,8 @@ public class OrdersControllerTests
             .Options;
             
         _dbContext = new OrdersDbContext(options);
-
-        _controller = new OrdersController(_dbContext);
+        SocketManager socketManager = new SocketManager();
+        _controller = new OrdersController(_dbContext, socketManager);
     }
 
     [Fact]

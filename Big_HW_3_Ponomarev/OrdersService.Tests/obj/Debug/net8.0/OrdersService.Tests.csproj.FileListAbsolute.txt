@@ -130,3 +130,4 @@ C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService.Tests\obj\
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService.Tests\obj\Debug\net8.0\OrdersService.Tests.pdb
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService.Tests\obj\Debug\net8.0\OrdersService.Tests.genruntimeconfig.cache
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService.Tests\obj\Debug\net8.0\ref\OrdersService.Tests.dll
+C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService.Tests\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

@@ -10,7 +10,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-7">
 
-            @if (activeAccount == null)
+            @if (_activeAccount == null)
             {
                 <div class="card shadow-sm">
                     <div class="card-header bg-primary text-white">
@@ -20,11 +20,11 @@
                         <h5 class="card-title">Вход или регистрация</h5>
                         <p class="card-text text-muted">Введите ваш UserID, чтобы найти существующий аккаунт или создать новый.</p>
                         <div class="input-group">
-                            <input @bind="userIdInput" class="form-control form-control-lg" placeholder="Например: user123" @onkeyup="HandleEnter" />
-                            <button class="btn btn-outline-primary" type="button" @onclick="ConnectToAccount" disabled="@isLoading">
+                            <input @bind="_userIdInput" class="form-control form-control-lg" placeholder="Например: user123" @onkeyup="HandleEnter" />
+                            <button class="btn btn-outline-primary" type="button" @onclick="ConnectToAccount" disabled="@_isLoading">
                                 <i class="bi bi-box-arrow-in-right"></i> Найти
                             </button>
-                            <button class="btn btn-outline-success" type="button" @onclick="CreateNewAccount" disabled="@isLoading">
+                            <button class="btn btn-outline-success" type="button" @onclick="CreateNewAccount" disabled="@_isLoading">
                                 <i class="bi bi-person-plus-fill"></i> Создать
                             </button>
                         </div>
@@ -35,7 +35,7 @@
             {
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                        <h5 class="my-0">Аккаунт: <span class="fw-normal">@activeAccount.UserId</span></h5>
+                        <h5 class="my-0">Аккаунт: <span class="fw-normal">@_activeAccount.UserId</span></h5>
                         <button class="btn btn-sm btn-light" @onclick="ChangeAccount">
                             <i class="bi bi-arrow-left-right"></i> Сменить
                         </button>
@@ -43,14 +43,14 @@
                     <div class="card-body">
                         <div class="text-center">
                             <h6 class="text-uppercase text-muted">Текущий баланс</h6>
-                            <p class="display-4 fw-bold">@activeAccount.Balance.ToString("C")</p>
+                            <p class="display-4 fw-bold">@_activeAccount.Balance.ToString("C")</p>
                         </div>
                         <hr />
                         <h6 class="card-subtitle mb-2 text-muted">Пополнение баланса</h6>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input @bind="depositAmount" type="number" class="form-control" placeholder="Сумма" min="0.01" step="0.01"/>
-                            <button class="btn btn-success" @onclick="Deposit" disabled="@isLoading">
+                            <input @bind="_depositAmount" type="number" class="form-control" placeholder="Сумма" min="0.01" step="0.01"/>
+                            <button class="btn btn-success" @onclick="Deposit" disabled="@_isLoading">
                                 <i class="bi bi-cash-coin"></i> Пополнить
                             </button>
                         </div>
@@ -65,8 +65,8 @@
                          <p class="card-text text-muted">Введите сумму и создайте новый заказ. Вы получите push-уведомление об изменении его статуса.</p>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input @bind="orderAmount" type="number" class="form-control" placeholder="Сумма заказа" min="0.01" step="0.01"/>
-                            <button class="btn btn-primary" @onclick="CreateOrder" disabled="@isLoading">
+                            <input @bind="_orderAmount" type="number" class="form-control" placeholder="Сумма заказа" min="0.01" step="0.01"/>
+                            <button class="btn btn-primary" @onclick="CreateOrder" disabled="@_isLoading">
                                 <i class="bi bi-cart-plus-fill"></i> Создать заказ
                             </button>
                         </div>
@@ -74,16 +74,16 @@
                 </div>
             }
 
-            @if (isLoading)
+            @if (_isLoading)
             {
                 <div class="progress mt-3">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
                 </div>
             }
-            @if (!string.IsNullOrEmpty(statusMessage))
+            @if (!string.IsNullOrEmpty(_statusMessage))
             {
-                <div class="alert @statusClass mt-3 mb-0" role="alert">
-                    @statusMessage
+                <div class="alert @_statusClass mt-3 mb-0" role="alert">
+                    @_statusMessage
                 </div>
             }
         </div>
@@ -91,30 +91,30 @@
 </div>
 
 @code {
-    private string userIdInput;
-    private AccountDto activeAccount;
-    private decimal depositAmount;
-    private decimal orderAmount;
+    private string _userIdInput;
+    private AccountDto _activeAccount;
+    private decimal _depositAmount;
+    private decimal _orderAmount;
     private System.Net.WebSockets.ClientWebSocket _socket;
     private CancellationTokenSource _cts;
-    private bool isLoading;
-    private string statusMessage;
-    private string statusClass;
+    private bool _isLoading;
+    private string _statusMessage;
+    private string _statusClass;
 
     private async Task ConnectToAccount()
     {
         await ProcessRequest(async () =>
         {
-            var response = await Http.GetAsync($"/payments-api/accounts/{userIdInput}/balance");
+            var response = await Http.GetAsync($"/payments-api/accounts/{_userIdInput}/balance");
             if (response.IsSuccessStatusCode)
             {
-                activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
+                _activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
                 await InitializeWebSocket();
             }
             else
             {
-                statusMessage = $"Аккаунт для '{userIdInput}' не найден.";
-                statusClass = "alert-warning";
+                _statusMessage = $"Аккаунт для '{_userIdInput}' не найден.";
+                _statusClass = "alert-warning";
             }
         });
     }
@@ -123,50 +123,50 @@
     {
         await ProcessRequest(async () =>
         {
-            var response = await Http.PostAsync($"/payments-api/accounts?userId={userIdInput}", null);
+            var response = await Http.PostAsync($"/payments-api/accounts?userId={_userIdInput}", null);
             if (response.IsSuccessStatusCode)
             {
-                activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
-                statusMessage = $"Аккаунт '{userIdInput}' успешно создан!";
-                statusClass = "alert-success";
+                _activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
+                _statusMessage = $"Аккаунт '{_userIdInput}' успешно создан!";
+                _statusClass = "alert-success";
                 await InitializeWebSocket();
             }
             else
             {
                 var error = await response.Content.ReadAsStringAsync();
-                statusMessage = $"Ошибка: {error}";
-                statusClass = "alert-danger";
+                _statusMessage = $"Ошибка: {error}";
+                _statusClass = "alert-danger";
             }
         });
     }
 
     private async Task Deposit()
     {
-        if (depositAmount <= 0)
+        if (_depositAmount <= 0)
         {
-            statusMessage = "Сумма пополнения должна быть больше нуля.";
-            statusClass = "alert-danger";
+            _statusMessage = "Сумма пополнения должна быть больше нуля.";
+            _statusClass = "alert-danger";
             StateHasChanged();
             return;
         }
         await ProcessRequest(async () =>
         {
-            var url = $"/payments-api/accounts/{activeAccount.UserId}/deposit?amount={depositAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            var url = $"/payments-api/accounts/{_activeAccount.UserId}/deposit?amount={_depositAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
             var response = await Http.PostAsync(url, null);
             if (response.IsSuccessStatusCode)
             {
                 var updatedAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
-                activeAccount.Balance = updatedAccount.Balance;
+                _activeAccount.Balance = updatedAccount.Balance;
 
-                statusMessage = "Баланс успешно пополнен!";
-                statusClass = "alert-success";
-                depositAmount = 0;
+                _statusMessage = "Баланс успешно пополнен!";
+                _statusClass = "alert-success";
+                _depositAmount = 0;
             }
             else
             {
                 var error = await response.Content.ReadAsStringAsync();
-                statusMessage = $"Ошибка пополнения: {error}";
-                statusClass = "alert-danger";
+                _statusMessage = $"Ошибка пополнения: {error}";
+                _statusClass = "alert-danger";
             }
         }, false);
     }
@@ -174,34 +174,34 @@
     private async Task ChangeAccount()
     {
         await CloseWebSocket();
-        activeAccount = null;
-        userIdInput = string.Empty;
-        statusMessage = string.Empty;
+        _activeAccount = null;
+        _userIdInput = string.Empty;
+        _statusMessage = string.Empty;
     }
 
     private async Task CreateOrder()
     {
-        if (orderAmount <= 0)
+        if (_orderAmount <= 0)
         {
-            statusMessage = "Сумма заказа должна быть больше нуля.";
-            statusClass = "alert-danger";
+            _statusMessage = "Сумма заказа должна быть больше нуля.";
+            _statusClass = "alert-danger";
             StateHasChanged();
             return;
         }
         await ProcessRequest(async () =>
         {
-            var url = $"/orders-api/Orders?userId={activeAccount.UserId}&amount={orderAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            var url = $"/orders-api/Orders?userId={_activeAccount.UserId}&amount={_orderAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
             var response = await Http.PostAsync(url, null);
             if (response.IsSuccessStatusCode)
             {
-                statusMessage = "Запрос на создание заказа успешно отправлен!";
-                statusClass = "alert-success";
-                orderAmount = 0;
+                _statusMessage = "Запрос на создание заказа успешно отправлен!";
+                _statusClass = "alert-success";
+                _orderAmount = 0;
             }
             else
             {
-                statusMessage = "Не удалось создать заказ. Проверьте баланс.";
-                statusClass = "alert-danger";
+                _statusMessage = "Не удалось создать заказ. Проверьте баланс.";
+                _statusClass = "alert-danger";
             }
         }, false);
     }
@@ -212,7 +212,7 @@
         
         _socket = new System.Net.WebSockets.ClientWebSocket();
         _cts = new CancellationTokenSource();
-        var wsUri = new UriBuilder("ws", "localhost", 8000, "ws") { Query = $"userId={activeAccount.UserId}" }.Uri;
+        var wsUri = new UriBuilder("ws", "localhost", 8000, "ws") { Query = $"userId={_activeAccount.UserId}" }.Uri;
 
         try
         {
@@ -241,15 +241,36 @@
                         var doc = System.Text.Json.JsonDocument.Parse(message);
                         if (doc.RootElement.TryGetProperty("Balance", out var balanceElement))
                         {
-                            activeAccount.Balance = balanceElement.GetDecimal();
+                            _activeAccount.Balance = balanceElement.GetDecimal();
                             StateHasChanged();
                         }
                         var text = doc.RootElement.TryGetProperty("Message", out var msgEl) ? msgEl.GetString() : message;
-                        await JSRuntime.InvokeVoidAsync("showToastr", "info", text);
+                        var status = doc.RootElement.TryGetProperty("Status", out var statusEl) ? statusEl.GetString() : null;
+                        var type = status switch
+                        {
+                            "Paid" => "success",
+                            "Failed" => "error",
+                            _ => text.Contains("успешно", StringComparison.OrdinalIgnoreCase)
+                                ? "success"
+                                : (text.Contains("ошибк", StringComparison.OrdinalIgnoreCase) ||
+                                   text.Contains("не удалось", StringComparison.OrdinalIgnoreCase))
+                                    ? "error"
+                                    : "info"
+                        };
+                        await JSRuntime.InvokeVoidAsync("showToastr", type, text);
+                        
+                        
                     }
                     catch (System.Text.Json.JsonException)
                     {
-                        await JSRuntime.InvokeVoidAsync("showToastr", "info", message);
+                        var type = message.Contains("успешно", StringComparison.OrdinalIgnoreCase)
+                            ? "success"
+                            : (message.Contains("ошибк", StringComparison.OrdinalIgnoreCase) ||
+                               message.Contains("не удалось", StringComparison.OrdinalIgnoreCase))
+                                ? "error"
+                                : "info";
+                        await JSRuntime.InvokeVoidAsync("showToastr", type, message);
+                        
                     }
                 }
             }
@@ -277,18 +298,18 @@
     
     private async Task ProcessRequest(Func<Task> action, bool clearStatus = true)
     {
-        if (string.IsNullOrWhiteSpace(userIdInput) && activeAccount == null)
+        if (string.IsNullOrWhiteSpace(_userIdInput) && _activeAccount == null)
         {
-            statusMessage = "UserID не может быть пустым.";
-            statusClass = "alert-danger";
+            _statusMessage = "UserID не может быть пустым.";
+            _statusClass = "alert-danger";
             StateHasChanged();
             return;
         }
 
-        isLoading = true;
+        _isLoading = true;
         if (clearStatus)
         {
-            statusMessage = string.Empty;
+            _statusMessage = string.Empty;
         }
         StateHasChanged();
 
@@ -298,11 +319,11 @@
         }
         catch (Exception ex)
         {
-            statusMessage = $"Произошла непредвиденная ошибка: {ex.Message}";
-            statusClass = "alert-danger";
+            _statusMessage = $"Произошла непредвиденная ошибка: {ex.Message}";
+            _statusClass = "alert-danger";
         }
 
-        isLoading = false;
+        _isLoading = false;
         StateHasChanged();
     }
 }
