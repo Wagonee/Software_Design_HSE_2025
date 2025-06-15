@@ -1,138 +1,294 @@
 ﻿@page "/"
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
+@using System.Net
 @implements IAsyncDisposable
 
-<PageTitle>Order Creation</PageTitle>
+<PageTitle>Аккаунт и Заказы</PageTitle>
 
-<h1>Система заказов</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
 
-<div class="card my-4">
-    <div class="card-body">
-        @if (!isConnected)
-        {
-            <h5 class="card-title">Подключение</h5>
-            <div class="input-group">
-                <input @bind="userId" class="form-control" placeholder="Введите ваш User ID" />
-                <button class="btn btn-primary" @onclick="ConnectWebSocket" disabled="@isConnecting">
-                    @if(isConnecting) {
-                        <span class="spinner-border spinner-border-sm"></span>
-                        <span> Connecting...</span>
-                    } else {
-                        <span>Подключиться</span>
-                    }
-                </button>
-            </div>
-        }
-        else
-        {
-            <h5 class="card-title">Новый заказ (UserID: @userId)</h5>
-            <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input @bind="amount" type="number" class="form-control" placeholder="Сумма" />
-                <button class="btn btn-success" @onclick="CreateOrder" disabled="@(amount <= 0)">Создать заказ</button>
-            </div>
-            <button class="btn btn-danger mt-3" @onclick="DisconnectWebSocket">Отключиться</button>
-        }
+            @if (activeAccount == null)
+            {
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="my-0">Вход в систему</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Вход или регистрация</h5>
+                        <p class="card-text text-muted">Введите ваш UserID, чтобы найти существующий аккаунт или создать новый.</p>
+                        <div class="input-group">
+                            <input @bind="userIdInput" class="form-control form-control-lg" placeholder="Например: user123" @onkeyup="HandleEnter" />
+                            <button class="btn btn-outline-primary" type="button" @onclick="ConnectToAccount" disabled="@isLoading">
+                                <i class="bi bi-box-arrow-in-right"></i> Найти
+                            </button>
+                            <button class="btn btn-outline-success" type="button" @onclick="CreateNewAccount" disabled="@isLoading">
+                                <i class="bi bi-person-plus-fill"></i> Создать
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="my-0">Аккаунт: <span class="fw-normal">@activeAccount.UserId</span></h5>
+                        <button class="btn btn-sm btn-light" @onclick="ChangeAccount">
+                            <i class="bi bi-arrow-left-right"></i> Сменить
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h6 class="text-uppercase text-muted">Текущий баланс</h6>
+                            <p class="display-4 fw-bold">@activeAccount.Balance.ToString("C")</p>
+                        </div>
+                        <hr />
+                        <h6 class="card-subtitle mb-2 text-muted">Пополнение баланса</h6>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input @bind="depositAmount" type="number" class="form-control" placeholder="Сумма" min="0.01" step="0.01"/>
+                            <button class="btn btn-success" @onclick="Deposit" disabled="@isLoading">
+                                <i class="bi bi-cash-coin"></i> Пополнить
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-        @if (!string.IsNullOrEmpty(statusMessage))
-        {
-            <div class="mt-3 alert alert-info">@statusMessage</div>
-        }
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="my-0">Новый заказ</h5>
+                    </div>
+                    <div class="card-body">
+                         <p class="card-text text-muted">Введите сумму и создайте новый заказ. Вы получите push-уведомление об изменении его статуса.</p>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input @bind="orderAmount" type="number" class="form-control" placeholder="Сумма заказа" min="0.01" step="0.01"/>
+                            <button class="btn btn-primary" @onclick="CreateOrder" disabled="@isLoading">
+                                <i class="bi bi-cart-plus-fill"></i> Создать заказ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (isLoading)
+            {
+                <div class="progress mt-3">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(statusMessage))
+            {
+                <div class="alert @statusClass mt-3 mb-0" role="alert">
+                    @statusMessage
+                </div>
+            }
+        </div>
     </div>
 </div>
 
 @code {
-    private string userId;
-    private decimal amount;
+    private string userIdInput;
+    private AccountDto activeAccount;
+    private decimal depositAmount;
+    private decimal orderAmount;
     private System.Net.WebSockets.ClientWebSocket _socket;
     private CancellationTokenSource _cts;
-
-    private bool isConnected;
-    private bool isConnecting;
+    private bool isLoading;
     private string statusMessage;
+    private string statusClass;
 
-    private async Task ConnectWebSocket()
+    private async Task ConnectToAccount()
     {
-        if (string.IsNullOrWhiteSpace(userId))
+        await ProcessRequest(async () =>
         {
-            await JSRuntime.InvokeVoidAsync("showToastr", "error", "Пожалуйста, введите User ID.");
+            var response = await Http.GetAsync($"/payments-api/accounts/{userIdInput}/balance");
+            if (response.IsSuccessStatusCode)
+            {
+                activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
+                await InitializeWebSocket();
+            }
+            else
+            {
+                statusMessage = $"Аккаунт для '{userIdInput}' не найден.";
+                statusClass = "alert-warning";
+            }
+        });
+    }
+
+    private async Task CreateNewAccount()
+    {
+        await ProcessRequest(async () =>
+        {
+            var response = await Http.PostAsync($"/payments-api/accounts?userId={userIdInput}", null);
+            if (response.IsSuccessStatusCode)
+            {
+                activeAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
+                statusMessage = $"Аккаунт '{userIdInput}' успешно создан!";
+                statusClass = "alert-success";
+                await InitializeWebSocket();
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                statusMessage = $"Ошибка: {error}";
+                statusClass = "alert-danger";
+            }
+        });
+    }
+
+    private async Task Deposit()
+    {
+        if (depositAmount <= 0)
+        {
+            statusMessage = "Сумма пополнения должна быть больше нуля.";
+            statusClass = "alert-danger";
+            StateHasChanged();
             return;
         }
+        await ProcessRequest(async () =>
+        {
+            var url = $"/payments-api/accounts/{activeAccount.UserId}/deposit?amount={depositAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            var response = await Http.PostAsync(url, null);
+            if (response.IsSuccessStatusCode)
+            {
+                var updatedAccount = await response.Content.ReadFromJsonAsync<AccountDto>();
+                activeAccount.Balance = updatedAccount.Balance;
 
-        isConnecting = true;
-        statusMessage = "Подключение к WebSocket...";
+                statusMessage = "Баланс успешно пополнен!";
+                statusClass = "alert-success";
+                depositAmount = 0;
+            }
+            else
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                statusMessage = $"Ошибка пополнения: {error}";
+                statusClass = "alert-danger";
+            }
+        }, false);
+    }
 
+    private async Task ChangeAccount()
+    {
+        await CloseWebSocket();
+        activeAccount = null;
+        userIdInput = string.Empty;
+        statusMessage = string.Empty;
+    }
+
+    private async Task CreateOrder()
+    {
+        if (orderAmount <= 0)
+        {
+            statusMessage = "Сумма заказа должна быть больше нуля.";
+            statusClass = "alert-danger";
+            StateHasChanged();
+            return;
+        }
+        await ProcessRequest(async () =>
+        {
+            var url = $"/orders-api/Orders?userId={activeAccount.UserId}&amount={orderAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            var response = await Http.PostAsync(url, null);
+            if (response.IsSuccessStatusCode)
+            {
+                statusMessage = "Запрос на создание заказа успешно отправлен!";
+                statusClass = "alert-success";
+                orderAmount = 0;
+            }
+            else
+            {
+                statusMessage = "Не удалось создать заказ. Проверьте баланс.";
+                statusClass = "alert-danger";
+            }
+        }, false);
+    }
+
+    private async Task InitializeWebSocket()
+    {
+        await CloseWebSocket();
+        
         _socket = new System.Net.WebSockets.ClientWebSocket();
         _cts = new CancellationTokenSource();
-
-        var wsUri = new Uri($"ws://localhost:8000/ws?userId={userId}");
+        var wsUri = new UriBuilder("ws", "localhost", 8000, "ws") { Query = $"userId={activeAccount.UserId}" }.Uri;
 
         try
         {
             await _socket.ConnectAsync(wsUri, _cts.Token);
-            isConnected = true;
-            isConnecting = false;
-            statusMessage = $"Успешно подключено для пользователя {userId}.";
-            await JSRuntime.InvokeVoidAsync("showToastr", "success", statusMessage);
-            _ = ListenForMessages(_cts.Token);
+            _ = Task.Run(() => ListenForMessages(_cts.Token));
         }
         catch (Exception ex)
         {
-            isConnecting = false;
-            statusMessage = $"Ошибка подключения: {ex.Message}";
-            await JSRuntime.InvokeVoidAsync("showToastr", "error", statusMessage);
+            await JSRuntime.InvokeVoidAsync("showToastr", "error", $"Ошибка подключения к уведомлениям: {ex.Message}");
         }
     }
 
     private async Task ListenForMessages(CancellationToken token)
     {
         var buffer = new byte[4 * 1024];
-        try
+        while (_socket?.State == System.Net.WebSockets.WebSocketState.Open && !token.IsCancellationRequested)
         {
-            while (_socket.State == System.Net.WebSockets.WebSocketState.Open)
+            try
             {
                 var result = await _socket.ReceiveAsync(new ArraySegment<byte>(buffer), token);
                 if (result.MessageType == System.Net.WebSockets.WebSocketMessageType.Text)
                 {
                     var message = System.Text.Encoding.UTF8.GetString(buffer, 0, result.Count);
                     await JSRuntime.InvokeVoidAsync("showToastr", "info", message);
-                    StateHasChanged(); // Обновляем UI
                 }
             }
-        }
-        catch (OperationCanceledException)
-        {
-            // Соединение было закрыто
+            catch (OperationCanceledException) { break; }
+            catch (System.Net.WebSockets.WebSocketException) { break; }
         }
     }
 
-    private async Task CreateOrder()
+    private async Task CloseWebSocket()
     {
-        if (amount <= 0)
+        if (_socket?.State == System.Net.WebSockets.WebSocketState.Open)
         {
-            await JSRuntime.InvokeVoidAsync("showToastr", "error", "Сумма должна быть больше нуля.");
-            return;
-        }
-        var url = $"http://localhost:8000/orders-api/Orders?userId={userId}&amount={amount.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
-        await Http.PostAsync(url, null);
-    }
-
-    private async Task DisconnectWebSocket()
-    {
-        if (_socket != null && _socket.State == System.Net.WebSockets.WebSocketState.Open)
-        {
-            _cts.Cancel();
+            _cts?.Cancel();
             await _socket.CloseAsync(System.Net.WebSockets.WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
         }
-        isConnected = false;
-        statusMessage = "Вы отключены.";
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await DisconnectWebSocket();
         _socket?.Dispose();
         _cts?.Dispose();
+        _socket = null;
+        _cts = null;
+    }
+
+    public async ValueTask DisposeAsync() => await CloseWebSocket();
+
+    private async Task HandleEnter(KeyboardEventArgs e) { if (e.Key == "Enter") await ConnectToAccount(); }
+    
+    private async Task ProcessRequest(Func<Task> action, bool clearStatus = true)
+    {
+        if (string.IsNullOrWhiteSpace(userIdInput) && activeAccount == null)
+        {
+            statusMessage = "UserID не может быть пустым.";
+            statusClass = "alert-danger";
+            StateHasChanged();
+            return;
+        }
+
+        isLoading = true;
+        if (clearStatus)
+        {
+            statusMessage = string.Empty;
+        }
+        StateHasChanged();
+
+        try
+        {
+            await action();
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Произошла непредвиденная ошибка: {ex.Message}";
+            statusClass = "alert-danger";
+        }
+
+        isLoading = false;
+        StateHasChanged();
     }
 }

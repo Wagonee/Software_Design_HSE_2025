@@ -134,3 +134,4 @@ C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService\obj\Debug\
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService\obj\Debug\net8.0\OrdersService.pdb
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService\obj\Debug\net8.0\OrdersService.genruntimeconfig.cache
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService\obj\Debug\net8.0\ref\OrdersService.dll
+C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\OrdersService\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

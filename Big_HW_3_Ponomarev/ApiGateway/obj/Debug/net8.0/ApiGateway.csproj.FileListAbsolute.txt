@@ -31,3 +31,5 @@ C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\obj\Debug\net
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\obj\Debug\net8.0\ApiGateway.pdb
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\obj\Debug\net8.0\ApiGateway.genruntimeconfig.cache
 C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\obj\Debug\net8.0\ref\ApiGateway.dll
+C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\bin\Debug\net8.0\System.IO.Hashing.dll
+C:\Users\ponom\RiderProjects\BigHW_3\Big_HW_3_Ponomarev\ApiGateway\bin\Debug\net8.0\Yarp.ReverseProxy.dll
